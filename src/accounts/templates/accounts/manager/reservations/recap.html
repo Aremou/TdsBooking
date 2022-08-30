@@ -1,0 +1,65 @@
+{% extends 'accounts/layouts/base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+
+
+{% block style %}
+
+{% endblock %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="float-right page-breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Tds Booking</a></li>
+                <li class="breadcrumb-item"><a href="#">Reservations</a></li>
+                <li class="breadcrumb-item active">Récapitulatif</li>
+            </ol>
+        </div>
+        <h5 class="page-title">Récapitulatif</h5>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-10 offset-1">
+        <div class="card m-b-30">
+
+            <div class="card-header bg-success text-center">
+                <h5>Succès</h5>
+              </div>
+            <div class="card-body text-center">
+                
+                <p>
+                    Vous venez d'éffectuer avec succès une réservation au nom de <strong> {{ booking.user.first_name }} {{ booking.user.last_name }}</strong>
+                </p>
+                
+            </div>
+        </div>
+    </div> 
+</div>
+<div class="row">
+    <div class="col-md-10 offset-1">
+        <div class="card m-b-30">
+
+            <form method="POST">
+                {% csrf_token %}
+                <div class="card-body">
+                    {{ form }}
+                    <button type="submit" class="btn btn-primary">Payer maintenant</button>
+                </div>
+            </form>
+        </div>
+    </div> 
+</div>
+
+
+    
+
+
+{% endblock content %}
+
+{% block script %}
+                
+{% endblock %}
