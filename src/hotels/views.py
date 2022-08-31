@@ -157,13 +157,13 @@ def reservation_hotel(request, slug, number):
         reserv = Reservation.objects.create(
             user_id=user.id, secret_key=key, token=token, chambre_id=chambre.id, check_in=x1, check_out=x2, amount=amount)
 
-        return HttpResponseRedirect(reverse('transition', args=[reserv.id, request.POST.get('check')]))
+        return HttpResponseRedirect(reverse('transition', args=[reserv.token, request.POST.get('check')]))
 
     return render(request, 'hotels/reservation/index.html', context={"chambre": chambre, "hotel": hotel, "date1": a, "date2": b, "amount": amount, "sejour": sejour, })
 
 
-def transition(request, number, type):
-    reserv = Reservation.objects.get(id=number)
+def transition(request, token, type):
+    reserv = Reservation.objects.get(token=token)
     return render(request, 'hotels/transition.html', {'type_paiement': type, 'reservation': reserv})
 
 

@@ -38,7 +38,14 @@
             <a href="{% url 'manager-edit-hotel' %}" >
                 <button type="button" class="btn btn-success waves-effect waves-light">Éditer l'hôtel</button>
             </a>
+            <a href="#eqpmnts" >
+                <button type="button" class="btn btn-secondary waves-effect waves-light">Les équipements de l'hôtel</button>
+            </a>
+            <a href="{% url 'add-hotel-img' %}" >
+                <button type="button" class="btn btn-warning waves-effect waves-light">La galerie</button>
+            </a>
         </div>
+        
         <div class="col-md-10 offset-1">
             
             <div class="card m-b-30">
@@ -82,7 +89,7 @@
         
 </div>
 
-<div class="row">
+<div id="eqpmnts" class="row">
     <div class="col-md-10 offset-1 mb-2">
         <button type="button" class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target="#myModal">Ajouter un équipement</button>
         

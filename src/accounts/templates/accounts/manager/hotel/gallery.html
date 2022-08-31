@@ -33,10 +33,25 @@
             <div class="card m-b-30">
                 <div class="card-body">
 
-                    <form method="POST" enctype="multipart/form-data" class="text-center" >
+                    <form method="POST" enctype="multipart/form-data" class="d-flex justify-content-center" >
                         {% csrf_token %}
-                        {{ form }}
-                       <button type="submit">Ajouter</button> 
+
+                        <div class="form-group mr-5">
+                            <label>Nom :</label>
+                            {% render_field form.name class="form-control" %}
+                        </div>
+
+                        <div class="form-group">
+                            <label>Image :</label>
+                            {% render_field form.image class="form-control border-0 p-0" %}
+                            <small class="text-danger">Seuls les format d'image jpg, jpeg et webp sont acceptés </smal>
+                        </div>
+                        <div class="d-flex align-items-center">
+                           <button type="reset" class="btn btn-secondary mr-2">Annuler</button>
+                           <button type="submit" class="btn btn-primary">Ajouter l'image</button>
+                            
+                        </div>
+                        
                     </form>
                     
                 </div>

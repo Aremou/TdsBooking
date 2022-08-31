@@ -9,7 +9,7 @@ urlpatterns = [
     path('<str:slug>/chambre-<int:number>/reservation/',
          reservation_hotel, name='reservation'),
     path('reservation', search_hotel, name='name_search_hotel'),
-    path('paiement/<int:number>/<str:type>/paiement-process/',
+    path('paiement/<str:token>/<str:type>/paiement-process/',
          pay_process, name='paiement_process'),
 
     path('reservation/recap/',
