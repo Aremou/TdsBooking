@@ -39,6 +39,14 @@
 
 <div class="row">
     
+        <div class="col-md-10 offset-1 mb-2">
+          <a href="#eqpmnts" >
+            <button type="button" class="btn btn-secondary waves-effect waves-light">Les équipements de la chambre</button>
+          </a>
+          <a href="#room_imgs" >
+            <button type="button" class="btn btn-info waves-effect waves-light">Les images de la chambre</button>
+          </a>
+        </div>
         <div class="col-md-10 offset-1">
 
             <div class="card m-b-30">
@@ -94,7 +102,7 @@
         
 </div>
 
-<div class="row">
+<div id="eqpmnts" class="row">
     <div class="col-md-10 offset-1 mb-2">
       <button type="button" class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target="#myModal">Ajouter un équipement</button>
       
@@ -154,12 +162,45 @@
                             <td> {{ eq.number }} </td>
                             <td> {{ eq.add_at | date:"D d M Y, H:i" }} </td>
                             <td class="text-center">
-                                <button type="" class="btn btn-primary btn-sm"><i class="fa fa-edit"></i></button>
+                                <button type="" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal" data-id="{{ eq.id }}" data-name="{{ eq.name }}" data-number="{{ eq.number }}" id="btn_edit" ><i class="fa fa-edit"></i></button>
                                 
-                                <button class="btn btn-danger btn-sm" type="button" data-toggle="modal" data-target="#delModal" data-id=" {{ eq.id }} " id="btn_delete"><i class="fa fa-trash"></i></button>
+                                <button class="btn btn-danger btn-sm" type="button" data-toggle="modal" data-target="#delModal" data-id="{{ eq.id }}" id="btn_delete"><i class="fa fa-trash"></i></button>
                             </td> 
                         </tr> 
                     {% endfor %}
+
+                    <div id="editModal" class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="modal-title mt-0" id="myModalLabel">Éditer l'équipement</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                  </button>
+                              </div>
+                              <form method="POST" action="{% url 'edit-chambre-eq' 0 %}">
+                                {% csrf_token %}
+                                <div class="modal-body">
+                                      <input type="hidden" name="eq-id" id="eq_id" />
+
+                                      <div class="form-group">
+                                      <label for="recipient-name" class="col-form-label">Dénomination:</label>
+                                      {% render_field eq_form.name class="form-control" id="edit-ch-eq-name" %}
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="message-text" class="col-form-label">Quantité:</label>
+                                          {% render_field eq_form.number class="form-control" id="edit-ch-eq-number" %}
+                                      </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Annuler</button>
+                                    <button type="submit" class="btn btn-primary waves-effect waves-light">Enrégistrer</button>
+                                </div>
+                          </div><!-- /.modal-content -->
+                          </form>
+                      </div><!-- /.modal-dialog -->
+                    </div>
 
                     <div id="delModal" class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                       <div class="modal-dialog modal-dialog-centered">
@@ -199,19 +240,35 @@
 
 
 
-<div class="row">
+<div id="room_imgs" class="row">
   
 <div class="col-md-10 offset-1">
   <div class="card m-b-30">
     
       <div class="card-body">
         
-          <div class="bg-primary py-2">
-            <form class="text-center" method="POST" enctype="multipart/form-data"  >
+          <div class="bg-light border border-secondary rounded">
+            <form method="POST" enctype="multipart/form-data" class="d-flex justify-content-center" >
               {% csrf_token %}
-              {{ form }}
-              <button type="submit">Ajouter une image</button> 
-            </form>
+
+              <div class="form-group mr-5">
+                  <label>Nom :</label>
+                  {% render_field form.name class="form-control bg-light" %}
+              </div>
+
+              <div class="form-group">
+                  <label>Image :</label>
+                  {% render_field form.image class="form-control border-0 p-0 bg-light" %}
+                  <small class="text-danger">Seuls les format d'image jpg, jpeg et webp sont acceptés </smal>
+              </div>
+              <div class="d-flex align-items-center pt-2">
+                 <button type="reset" class="btn btn-secondary mr-2">Annuler</button>
+                 <button type="submit" class="btn btn-primary">Ajouter l'image</button>
+                  
+              </div>
+              
+          </form>
+            
           </div>
               {% for img in imgs %}
               <div class="row d-inline-block mt-2">
@@ -272,8 +329,13 @@
             });
 
             $(document).on('click', '#btn_edit', function() {
-                var ID = $(this).attr('data-id');
-                $('#eq_id').val(ID);
+                var id = $(this).attr('data-id');
+                var name = $(this).attr('data-name');
+                var number = $(this).attr('data-number');
+
+                $('#eq_id').val(id);
+                $('#edit-ch-eq-name').val(name);
+                $('#edit-ch-eq-number').val(number);
 
                 $('#editModal').modal('show');
 

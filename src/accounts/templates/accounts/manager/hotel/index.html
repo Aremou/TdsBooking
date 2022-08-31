@@ -38,7 +38,14 @@
             <a href="{% url 'manager-edit-hotel' %}" >
                 <button type="button" class="btn btn-success waves-effect waves-light">Éditer l'hôtel</button>
             </a>
+            <a href="#eqpmnts" >
+                <button type="button" class="btn btn-secondary waves-effect waves-light">Les équipements de l'hôtel</button>
+            </a>
+            <a href="{% url 'add-hotel-img' %}" >
+                <button type="button" class="btn btn-warning waves-effect waves-light">La galerie</button>
+            </a>
         </div>
+        
         <div class="col-md-10 offset-1">
             
             <div class="card m-b-30">
@@ -82,7 +89,7 @@
         
 </div>
 
-<div class="row">
+<div id="eqpmnts" class="row">
     <div class="col-md-10 offset-1 mb-2">
         <button type="button" class="btn btn-success waves-effect waves-light" data-toggle="modal" data-target="#myModal">Ajouter un équipement</button>
         
@@ -146,9 +153,9 @@
                         <td> <span id="eq-name">{{ eq.name }}</span></td>
                         <td> <span id="eq-category">{{ eq.category }}</span></td>
                         <td> <span id="ep-number">{{ eq.number }}</span></td>
-                        <td> <span >{{ eq.add_at }}</span></td>
+                        <td> <span >{{ eq.add_at | date:"D d M Y, H:i" }}</span></td>
                         <td class="text-center">
-                            <button type="" class="btn btn-primary btn-sm" data-toggle="modal" id="btn_edit" data-target="#editModal" data-id="{{ eq.id }}" ><i class="fa fa-edit"></i></button>
+                            <button type="" class="btn btn-primary btn-sm" data-toggle="modal" id="btn_edit" data-target="#editModal" data-id="{{ eq.id }}" data-name="{{ eq.name }}" data-category="{{ eq.category }}" data-number="{{ eq.number }}" ><i class="fa fa-edit"></i></button>
                             <button class="btn btn-danger btn-sm" type="button" id="btn_delete" data-id="{{ eq.id }}" ><i class="fa fa-trash"></i></button>
                         </td>                                              
                     </tr>
@@ -171,13 +178,13 @@
                                             <input type="hidden" name="equipement" id="eq_id" />
                                            
                                             <label for="recipient-name" class="col-form-label">Dénomination:</label>
-                                             {% render_field form.name class="form-control" id="name-eq" %}
+                                             {% render_field form.name class="form-control" id="name_eq" %}
                                             </div>
                                             <div class="form-group">
                                             <label for="message-text" class="col-form-label">Catégorie:</label>
-                                                {% render_field form.category class="form-control"  %}
+                                                {% render_field form.category class="form-control" id="category_eq" %}
                                             <label for="message-text" class="col-form-label">Quantité:</label>
-                                            {% render_field form.number class="form-control"  %}
+                                            {% render_field form.number class="form-control" id="number_eq" %}
                                         </div>
                                 </div>
                                 <div class="modal-footer">
@@ -248,8 +255,15 @@
             });
             
             $(document).on('click', '#btn_edit', function() {
-                var ID = $(this).attr('data-id');
-                $('#eq_id').val(ID);
+                var id = $(this).attr('data-id');
+                var name = $(this).attr('data-name');
+                var category = $(this).attr('data-category');
+                var number = $(this).attr('data-number');
+
+                $('#eq_id').val(id);
+                $('#name_eq').val(name);
+                $('#category_eq').val(category);
+                $('#number_eq').val(number);
 
                 $('#editModal').modal('show');
 
