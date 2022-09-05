@@ -1,0 +1,61 @@
+{% extends 'TdsBooking/layouts/base.html'%}
+{% load static %}
+
+{% block title %}
+<title>TDS Booking | Conditions du Partenariat</title>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 mx-auto mt-5 mb-3">
+      <div class="card">
+        <h5 class="card-header">Conditions du partenariat</h5>
+        <div class="card-body">
+
+          <div class="text-justify">
+            {% lorem 2 %}
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-10 mx-auto mb-3">
+      <div class="card">
+        <h5 class="card-header">Les avantages de travailler avec nous</h5>
+        <div class="card-body">
+
+          <div class="text-justify">
+            {% lorem 3 %}
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-10 mx-auto mb-3">
+      <div class="card">
+        <h5 class="card-header">Les étapes à suivre</h5>
+        <div class="card-body">
+
+          <div class="text-justify">
+            {% lorem 2 %}
+          </div>
+
+          <div class="my-2">
+            <a href="{%  url 'request-partnerships' %}">
+                <button class="btn btn-primary" type="button">Envoyer une demande de partenariatbutton</button>
+            </a>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+</div>
+</div>
+
+
+
+
+{% endblock %}

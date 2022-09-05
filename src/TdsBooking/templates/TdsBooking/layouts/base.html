@@ -24,17 +24,14 @@
 
 <body>
 
-    {% include "TdsBooking/layouts/header.html" %} 
-     
-    
-
+    {% include "TdsBooking/partials/header.html" %} 
+ 
     {% block content %}
     {% endblock %}
      
-    {% include "TdsBooking/layouts/footer.html" %} 
+    {% include "TdsBooking/partials/footer.html" %} 
 
 
-    
   <script src="{% static 'js/jquery-3.3.1.min.js'%}"></script>
   <script src="{% static 'js/bootstrap.min.js'%}"></script>
   <script src="{% static 'js/multi-animated-counter.js'%}"></>
