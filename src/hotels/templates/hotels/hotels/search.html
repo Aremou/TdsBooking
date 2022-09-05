@@ -24,22 +24,21 @@
     <div class="row">
           <div class="col-lg-3 sidebar  ftco-animate">
               <div class="sidebar-wrap ftco-animate">
-                <form action="#">
+                <form action="{% url 'name_search_hotel' %}" method='GET'>
                   <div class="fields">
                     <div class="form-group">
-                      <input type="text" class="form-control" placeholder="Oû allez-vous?">
+                      <input type="text" class="form-control" placeholder="Oû allez-vous?" name="search" value="{{ lieu }}">
                     </div>
                     <div class="form-group">
                       <div class="select-wrap one-third">
                       <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                      
                       </div>
                       </div>
                       <div class="form-group">
-                        <input type="text" id="datepicker" class="form-control checkout_date" value='{{ t1 }}'  placeholder="Date d'arrivée" readonly>
+                        <input type="text" id="datepicker" name="date1" class="form-control checkout_date" value='{{ d1 }}'  placeholder="Date d'arrivée" readonly>
                       </div>
                       <div class="form-group">
-                        <input type="text" id="datepicker1" class="form-control checkin_date" value='{{ t2 }}' placeholder="Date de depart" readonly>
+                        <input type="text" id="datepicker1" name="date2" class="form-control checkin_date" value='{{ d2 }}' placeholder="Date de depart" readonly>
                       </div>
                       <div class="form-group">
                       <input type="submit" value="Rechercher" class="btn btn-primary py-3 px-5">
