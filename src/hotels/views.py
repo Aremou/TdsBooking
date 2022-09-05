@@ -23,12 +23,18 @@ from hotels.helpers.availability import check_availability
 
 
 def search_hotel(request):
+    
+    if 'date' in request.GET :
+        date = request.GET['date']
+        t = date.split("-")
+        t1 = t[0]
+        t2 = t[1]
+    elif 'date1' in request.GET :
+        t1 = request.GET['date1']
+        t2 = request.GET['date2']
 
     search = request.GET['search']
-    date = request.GET['date']
-    t = date.split("-")
-    t1 = t[0]
-    t2 = t[1]
+
     price = []
 
     request.session['date01'] = t1
@@ -60,7 +66,7 @@ def search_hotel(request):
     if hotels_number == 1 or hotels_number == 0:
         message = f'{hotels_number} établissement trouvé'
 
-    return render(request, 'hotels/hotels/search.html', {'available_hotels_by_price': available_hotels_by_price, 'message': message, })
+    return render(request, 'hotels/hotels/search.html', {'available_hotels_by_price': available_hotels_by_price, 'message': message, 'lieu' : search , 'd1' : t1, 'd2' : t2})
 
 
 def hotels_view(request):

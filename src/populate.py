@@ -55,7 +55,14 @@ def populate(N):
 if __name__ == '__main__':
     print("Populating Script!")
     
+    add_hotel(26)
+    
+    add_cartegorie(3)
+    
+    populate(250)
+    
     add_equipement(7000)
+    
     
     
     
