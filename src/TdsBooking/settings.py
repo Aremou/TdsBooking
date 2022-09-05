@@ -88,13 +88,9 @@ WSGI_APPLICATION = 'TdsBooking.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'tds_booking',
+        'NAME': 'TdsBooking',
         'USER': 'root',
-<<<<<<< HEAD
         'PASSWORD': 'Ben10@',
-=======
-        'PASSWORD': 'saobane01',
->>>>>>> edf4ce034d0fecad716b86cea3464a29367c9a0b
         'HOST': 'localhost',
         'PORT': '3306',
     }
