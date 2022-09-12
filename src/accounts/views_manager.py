@@ -19,8 +19,10 @@ from django.urls import reverse
 from accounts.forms import AddChambreEp, AddChambreImg, AddHotelEp, AddHotelImg, AddPayement, CheckBooking, EditHotel, ManagerAddBooking, ManagerEditChambre
 from accounts.models import CustomUser, HotelManager
 from hotels.models import Chambre, Equipement, Equipement_Hotel, Hotel, Image_Chambre, Image_Hotel, Payement, Reservation
+from django.contrib.auth.decorators import user_passes_test
 
 
+@user_passes_test(lambda u: "Manager" in [group.name for group in u.groups.all()], login_url='home')
 def add_room(request):
     user = request.user
     manager = HotelManager.objects.get(user=user.id)
@@ -50,6 +52,7 @@ def add_room(request):
     return render(request, 'accounts/manager/chambres/add.html', {'form': form})
 
 
+@user_passes_test(lambda u: "Manager" in [group.name for group in u.groups.all()], login_url='home')
 def manager_hotel(request):
     user = request.user
     manager = HotelManager.objects.get(user=user.id)
@@ -73,6 +76,7 @@ def del_hotel_eq(request, id):
     return redirect('manager-hotel')
 
 
+@user_passes_test(lambda u: "Manager" in [group.name for group in u.groups.all()], login_url='home')
 def edit_hotel_eq(request, id):
 
     eq = Equipement_Hotel.objects.filter(
@@ -80,6 +84,7 @@ def edit_hotel_eq(request, id):
     return redirect('manager-hotel')
 
 
+@user_passes_test(lambda u: "Manager" in [group.name for group in u.groups.all()], login_url='home')
 def edit_hotel(request):
     hotel = Hotel.objects.get(pk=request.user.hotelmanager.hotel.id)
     if request.method == 'POST':
@@ -93,6 +98,7 @@ def edit_hotel(request):
     return render(request, 'accounts/manager/hotel/edit_hotel.html', {'form': form, 'hotel': hotel})
 
 
+@user_passes_test(lambda u: "Manager" in [group.name for group in u.groups.all()], login_url='home')
 def add_hotel_img(request):
     manager = HotelManager.objects.get(user=request.user.id)
 
@@ -113,6 +119,7 @@ def add_hotel_img(request):
     return render(request, 'accounts/manager/hotel/gallery.html', {'form': form, 'imgs': imgs})
 
 
+@user_passes_test(lambda u: "Manager" in [group.name for group in u.groups.all()], login_url='home')
 def del_hotel_img(request, token):
     img = Image_Hotel.objects.get(token=token)
     if img.image:
@@ -121,6 +128,7 @@ def del_hotel_img(request, token):
     return redirect('add-hotel-img')
 
 
+@user_passes_test(lambda u: "Manager" in [group.name for group in u.groups.all()], login_url='home')
 def manager_chambres(request):
     user = request.user
     manager = HotelManager.objects.get(user=user.id)
@@ -148,6 +156,7 @@ def manager_edit_chambre(request, token):
     return render(request, 'accounts/manager/chambres/edit.html', {"form": form, 'chambre': chambre})
 
 
+@user_passes_test(lambda u: "Manager" in [group.name for group in u.groups.all()], login_url='home')
 def manager_chambre_details(request, token):
 
     room = get_object_or_404(Chambre, token=token)
@@ -198,6 +207,7 @@ def edit_chambre_eq(request, id):
     return HttpResponseRedirect(reverse('manager-chambre', args=[eq.chambre.token]))
 
 
+@user_passes_test(lambda u: "Manager" in [group.name for group in u.groups.all()], login_url='home')
 def mes_paiements(request):
     user = request.user
     manager = HotelManager.objects.get(user=user.id)
@@ -217,6 +227,7 @@ def detail_pay(request, token):
     return render(request, 'accounts/manager/paiements/details.html', {'paiement': paiement, 'transaction': transaction, })
 
 
+@user_passes_test(lambda u: "Manager" in [group.name for group in u.groups.all()], login_url='home')
 def manager_reservations(request):
     user = request.user
     manager = HotelManager.objects.get(user=user.id)
@@ -233,6 +244,7 @@ def manager_reservations(request):
     return render(request, 'accounts/manager/reservations/index.html', {'reservations_EAP': reservations_EAP, 'reservations_EC': reservations_EC, 'reservations_AN': reservations_AN, 'reservations_T': reservations_T})
 
 
+@user_passes_test(lambda u: "Manager" in [group.name for group in u.groups.all()], login_url='home')
 def manager_reservation(request, token):
     reservation = get_object_or_404(Reservation, token=token)
     verify_pay = Payement.objects.filter(reservation=reservation)
@@ -257,6 +269,7 @@ def annul_reservation(request, token):
     return HttpResponseRedirect(reverse('manager-reservation', args=[token]))
 
 
+@user_passes_test(lambda u: "Manager" in [group.name for group in u.groups.all()], login_url='home')
 def manager_dashboard(request):
     user = request.user
     manager = HotelManager.objects.get(user=user.id)
@@ -286,6 +299,7 @@ def manager_dashboard(request):
     return render(request, 'accounts/manager/dashboard/index.html', {'total': total, 'cancel': cancel, 'progress': progress, 'waiting_pay': waiting_pay, 'end': end, 'total_payment': total_payment, 'total_room': total_room})
 
 
+@user_passes_test(lambda u: "Manager" in [group.name for group in u.groups.all()], login_url='home')
 def check_booking(request):
     booking = ""
     msg = ""
@@ -312,6 +326,7 @@ def check_booking(request):
     return render(request, 'accounts/manager/reservations/check.html', {'form': form, 'msg': msg, 'booking': booking})
 
 
+@user_passes_test(lambda u: "Manager" in [group.name for group in u.groups.all()], login_url='home')
 def add_booking(request):
     user = request.user
     manager = HotelManager.objects.get(user=user.id)
@@ -335,6 +350,7 @@ def add_booking(request):
     return render(request, 'accounts/manager/reservations/add.html', {'form': form, 'available_rooms': available_rooms, 'check_in': check_in, 'check_out': check_out})
 
 
+@user_passes_test(lambda u: "Manager" in [group.name for group in u.groups.all()], login_url='home')
 def add_booking_form(request, token, check_in, check_out):
     manager = HotelManager.objects.get(user=request.user.id)
     room = Chambre.objects.get(hotel=manager.hotel.id, token=token)
@@ -389,6 +405,7 @@ def add_booking_form(request, token, check_in, check_out):
     return render(request, 'accounts/manager/reservations/add_form.html', {'room': room, 'check_in': x1, 'check_out': x2, 'sejour': sejour, 'amount': amount})
 
 
+@user_passes_test(lambda u: "Manager" in [group.name for group in u.groups.all()], login_url='home')
 def delete_room(request, token):
     room = Chambre.objects.get(token=token)
     room.is_delete = True
@@ -397,11 +414,13 @@ def delete_room(request, token):
     return redirect('manager-chambres')
 
 
+@user_passes_test(lambda u: "Manager" in [group.name for group in u.groups.all()], login_url='home')
 def delete_room_confirm(request, token):
     room = Chambre.objects.get(token=token)
     return render(request, 'accounts/manager/chambres/delete.html', {'room': room})
 
 
+@user_passes_test(lambda u: "Manager" in [group.name for group in u.groups.all()], login_url='home')
 def booking_recap(request, token):
     booking = Reservation.objects.get(token=token)
     if request.method == 'POST':

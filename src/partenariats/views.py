@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+
+from partenariats.forms import RequestForm
 
 # Create your views here.
 
@@ -8,4 +10,16 @@ def partnerships_conditions(request):
 
 
 def request_partnerships(request):
-    return render(request, 'partenariats/request_partnerships.html')
+    form = RequestForm
+
+    if request.method == 'POST':
+        form = RequestForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('request-recap')
+    return render(request, 'partenariats/request_partnerships.html', {'form': form})
+
+
+def recap(request):
+    return render(request, 'partenariats/recap.html')

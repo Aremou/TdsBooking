@@ -1,6 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from kkiapay import Kkiapay
+from django.contrib.auth.decorators import login_required
 
 
 from django.shortcuts import render
@@ -10,6 +11,7 @@ from django.urls import reverse
 from hotels.models import Payement, Reservation
 
 
+@login_required(login_url='connexion')
 def mes_reservations(request):
     user = request.user
     reservations = Reservation.objects.filter(user=user.id)
@@ -17,6 +19,7 @@ def mes_reservations(request):
     return render(request, 'accounts/customer/reservations/index.html', {'reservations': reservations})
 
 
+@login_required(login_url='connexion')
 def detail_reservation(request, token):
 
     reservation = get_object_or_404(Reservation, token=token)
@@ -24,6 +27,7 @@ def detail_reservation(request, token):
     return render(request, 'accounts/customer/reservations/details.html', {'reservation': reservation})
 
 
+@login_required(login_url='connexion')
 def annul_reservation(request, token):
 
     reservation = Reservation.objects.get(token=token)
@@ -33,6 +37,7 @@ def annul_reservation(request, token):
     return HttpResponseRedirect(reverse('reservation', args=[token]))
 
 
+@login_required(login_url='connexion')
 def mes_paiements(request):
     user = request.user
 
@@ -41,6 +46,7 @@ def mes_paiements(request):
     return render(request, 'accounts/customer/paiements/index.html', {'paiements': paiements})
 
 
+@login_required(login_url='connexion')
 def detail_paiement(request, token):
     paiement = get_object_or_404(Payement, token=token)
 
@@ -50,6 +56,7 @@ def detail_paiement(request, token):
     return render(request, 'accounts/customer/paiements/details.html', {'paiement': paiement, 'transaction': transaction, })
 
 
+@login_required(login_url='connexion')
 def customer_dashboard(request):
 
     booking = Reservation.objects.filter(user=request.user.id)
