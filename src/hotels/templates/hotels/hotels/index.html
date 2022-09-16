@@ -145,6 +145,7 @@
   $(function () {
     $("#datepicker").datepicker({
       autoApply: true,
+      minDate: 0,
       format:'DD/MM/YYYY',
       autoHide: true,
     });
@@ -152,7 +153,7 @@
 
   $(function () {
     $("#datepicker1").datepicker({
-     
+      minDate: 0,
       format:'dd/MM/YYYY',
       autoHide: true,
     }).val();

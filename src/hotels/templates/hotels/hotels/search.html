@@ -113,6 +113,7 @@
   $(function () {
     $("#datepicker").datepicker({
       autoApply: true,
+      minDate: new Date(),
       format:'DD/MM/YYYY',
       autoHide: true,
     });
@@ -120,6 +121,7 @@
 
   $(function () {
     $("#datepicker1").datepicker({
+      minDate: new Date(),
       changeMonth: true,
       changeYear: true,
       dayNamesMin: [ "Di", "Lu", "Ma", "Me", "Je", "Ve", "Sa" ],

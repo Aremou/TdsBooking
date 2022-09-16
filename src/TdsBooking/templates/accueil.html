@@ -120,12 +120,8 @@ a {
             <div class="filter__form__item bg-light">
                 
                 <div class="filter__form__datepicker " >
-                    <!-- &nbsp;<span class="icon_calendar" id="date"></span>&nbsp; -->
                     <input type="text" id="picker" name="date" readonly>
                 </div> 
-
-                
-                
             </div>
             
             <div class="filter__form__item filter__form__item--select">
@@ -446,8 +442,7 @@ $(document).ready(function() {
 $('#picker').daterangepicker({
   
   autoApply: true,
-  startDate: moment(),
-  endDate: moment(),
+  minDate: new Date(),
   locale: {
     format: 'DD MMM YY',
   }

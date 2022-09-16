@@ -1,5 +1,5 @@
 from django.urls import path
-from hotels.views import chambre_detail, hotel_detail, hotels_view, pay_process, reservation_hotel, search_hotel
+from hotels.views import chambre_detail, hotel_check_avail, hotel_detail, hotels_view, pay_process, reservation_hotel, search_hotel
 
 urlpatterns = [
     path('', hotels_view, name="hotels-index"),
@@ -11,6 +11,9 @@ urlpatterns = [
     path('reservation', search_hotel, name='name_search_hotel'),
     path('paiement/<str:token>/<str:type>/paiement-process/',
          pay_process, name='paiement_process'),
+
+    path('<str:slug>/verifier-les-disponibiltes/',
+         hotel_check_avail, name='check-hotel-avail'),
 
     path('reservation/recap/',
          pay_process, name='recap'),

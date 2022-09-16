@@ -23,13 +23,12 @@ from hotels.helpers.availability import check_availability
 
 
 def search_hotel(request):
-    
-    if 'date' in request.GET :
+    if 'date' in request.GET:
         date = request.GET['date']
         t = date.split("-")
         t1 = t[0]
         t2 = t[1]
-    elif 'date1' in request.GET :
+    elif 'date1' in request.GET:
         t1 = request.GET['date1']
         t2 = request.GET['date2']
 
@@ -66,7 +65,7 @@ def search_hotel(request):
     if hotels_number == 1 or hotels_number == 0:
         message = f'{hotels_number} établissement trouvé'
 
-    return render(request, 'hotels/hotels/search.html', {'available_hotels_by_price': available_hotels_by_price, 'message': message, 'lieu' : search , 'd1' : t1, 'd2' : t2})
+    return render(request, 'hotels/hotels/search.html', {'available_hotels_by_price': available_hotels_by_price, 'message': message, 'lieu': search, 'd1': t1, 'd2': t2})
 
 
 def hotels_view(request):
@@ -93,7 +92,19 @@ def hotel_detail(request, slug):
 
     equipements = Equipement_Hotel.objects.filter(hotel=hotel.id)
 
-    return render(request, 'hotels/hotels/hotel.html', context={"hotel": hotel, "chambres": available_rooms, "equipements": equipements})
+    return render(request, 'hotels/hotels/hotel.html', context={"hotel": hotel, "chambres": available_rooms, "equipements": equipements, "t1": t1})
+
+
+def hotel_check_avail(request, slug):
+    print(slug)
+    hotel = get_object_or_404(Hotel, slug=slug)
+    date = request.GET['date']
+    t = date.split("-")
+    t1 = t[0]
+    t2 = t[1]
+    request.session['date01'] = t1
+    request.session['date02'] = t2
+    return HttpResponseRedirect(reverse('hotel', args=[hotel.slug]))
 
 
 def chambre_detail(request, slug, number):
