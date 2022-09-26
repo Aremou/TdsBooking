@@ -11,6 +11,8 @@ from django.core.validators import FileExtensionValidator
 
 class Hotel(models.Model):
     name = models.CharField(max_length=100)
+    first_img = models.ImageField(upload_to="images/hotel/", validators=[
+        FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'webp'])], blank=True, null=True)
     slug = models.SlugField(blank=True)
     description = RichTextField(blank=True, null=True)
     tel_1 = models.CharField(max_length=100)
@@ -21,7 +23,7 @@ class Hotel(models.Model):
     ville = models.CharField(max_length=100, blank=True, null=True)
     token = models.CharField(max_length=100, blank=True, null=True)
     created_at = models.DateTimeField(auto_now=True, blank=True, null=True)
-    video = models.FileField(upload_to='videos_uploaded', null=True, blank=True,
+    video = models.FileField(upload_to='videos/hotel', null=True, blank=True,
                              validators=[FileExtensionValidator(allowed_extensions=['MOV', 'avi', 'mp4', 'webm', 'mkv'])])
 
     def __str__(self):
@@ -57,6 +59,10 @@ class Category(models.Model):
 class Chambre(models.Model):
 
     name = models.CharField(max_length=100, blank=True, null=True)
+    first_img = models.ImageField(upload_to="images/chambre/", validators=[
+        FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'webp'])], blank=True, null=True)
+    video = models.FileField(upload_to='videos/chambre', null=True, blank=True,
+                             validators=[FileExtensionValidator(allowed_extensions=['MOV', 'avi', 'mp4', 'webm', 'mkv'])])
     slug = models.SlugField(blank=True)
     description = RichTextField(blank=True, null=True)
     number = models.IntegerField()
@@ -70,8 +76,6 @@ class Chambre(models.Model):
     beds = models.PositiveIntegerField()
     capacity = models.PositiveIntegerField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now=True, blank=True, null=True)
-    video = models.FileField(upload_to='videos_uploaded', null=True, blank=True,
-                             validators=[FileExtensionValidator(allowed_extensions=['MOV', 'avi', 'mp4', 'webm', 'mkv'])])
     is_delete = models.BooleanField(default=False)
     delete_at = models.DateTimeField(blank=True, null=True)
     update_at = models.DateTimeField(blank=True, null=True)

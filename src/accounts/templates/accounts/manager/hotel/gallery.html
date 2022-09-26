@@ -26,9 +26,38 @@
         <h5 class="page-title">Galerie</h5>
     </div>
 </div>
+<div class="row">
+    <div class="col-md-10 offset-1">
+
+        <div class="card m-b-30">
+            <div class="card-body">
+
+                <form method="POST" action="{%  url 'add-hotel-video' %}" enctype="multipart/form-data"  class="d-flex justify-content-center" >
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label>Video :</label>
+                        {% render_field form.image class="form-control border-0 p-0" %}
+                        <small class="text-danger">Seuls les format d'image jpg, jpeg et webp sont acceptés </smal>
+                    </div>
+                    <div class="d-flex align-items-center">
+                       <button type="reset" class="btn btn-secondary mr-2">Annuler</button>
+                       <button type="submit" class="btn btn-primary">Ajouter une video</button>
+                        
+                    </div>
+                    
+                </form>
+                
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
 <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-10 offset-1">
 
             <div class="card m-b-30">
                 <div class="card-body">
@@ -63,12 +92,12 @@
 </div>
 
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-10 offset-1">
         <div class="card m-b-30">
             <div class="card-body">
-
+                
                 <h4 class="mt-0 header-title">Galerie</h4>
-                <p class="text-muted m-b-30 font-14">In this example lazy-loading of images is enabled for the next image based on move direction. </p>
+                {% if imgs %}
 
                     {% for img in imgs %}
                     <div class="d-inline-block">
@@ -88,12 +117,17 @@
                     </div>
                         
                     {% endfor %}
-                
 
+                    {% else %}
+
+                    <p class="">Aucune Image dans galerie</p>
+                    
+                    {% endif %}
             </div>
         </div>
     </div> 
 </div>
+
 
 
 {% endblock content %}

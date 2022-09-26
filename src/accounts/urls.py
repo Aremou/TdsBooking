@@ -79,6 +79,8 @@ urlpatterns = [
 
     path('manager/hotel/galerie',
          views_manager.add_hotel_img, name='add-hotel-img'),
+    path('manager/hotel/galerie/ajouter-une-video/',
+         views_manager.add_hotel_video, name='add-hotel-video'),
     path('manager/hotel/image/<str:token>/supprimer',
          views_manager.del_hotel_img, name='del-hotel-img'),
     path('manager/chambre/image/<str:token>/supprimer',

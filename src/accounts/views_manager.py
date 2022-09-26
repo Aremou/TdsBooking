@@ -28,7 +28,7 @@ def add_room(request):
     manager = HotelManager.objects.get(user=user.id)
 
     if request.method == "POST":
-        form = ManagerEditChambre(request.POST)
+        form = ManagerEditChambre(request.POST, request.FILES)
 
         token = get_random_string(length=32)
         while Chambre.objects.filter(token=token).exists():
@@ -43,11 +43,16 @@ def add_room(request):
             category = form.cleaned_data.get('category')
             beds = form.cleaned_data.get('beds')
             capacity = form.cleaned_data.get('capacity')
+            first_img = form.cleaned_data.get('first_img')
+            print(first_img)
+            print(request.FILES['first_img'])
+            img = Image.objects.create(
+                name=name, image=first_img, token=123456789)
 
             Chambre.objects.create(hotel=manager.hotel, name=name, number=number, description=description,
-                                   area=area, overnight=overnight, beds=beds, category=category, token=token, capacity=capacity)
+                                   area=area, overnight=overnight, beds=beds, category=category, token=token, capacity=capacity, first_img=1)
 
-    form = ManagerEditChambre()
+    form = ManagerEditChambre(request.GET)
 
     return render(request, 'accounts/manager/chambres/add.html', {'form': form})
 
@@ -116,7 +121,16 @@ def add_hotel_img(request):
     else:
         form = AddHotelImg()
 
-    return render(request, 'accounts/manager/hotel/gallery.html', {'form': form, 'imgs': imgs})
+    return render(request, 'accounts/manager/hotel/gallery.html', {'form': form, 'imgs': imgs, 'manager': manager})
+
+
+def add_hotel_video(request):
+
+    manager = HotelManager.objects.get(user=request.user.id)
+
+    hotel = Hotel.objects.filter(token=manager.hotel.token)
+    hotel.update(video=request.Files['video'])
+    return redirect('home')
 
 
 @user_passes_test(lambda u: "Manager" in [group.name for group in u.groups.all()], login_url='home')

@@ -1,4 +1,5 @@
 from pyexpat import model
+from django.db import models
 from attr import fields
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
@@ -6,6 +7,7 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
 from accounts.models import CustomUser, Profile
 from hotels.models import Chambre, Equipement, Equipement_Hotel, Hotel, Image_Chambre, Image_Hotel, Payement
+from django.core.validators import FileExtensionValidator
 
 
 class SignupForm(forms.Form):
@@ -19,7 +21,7 @@ class SignupForm(forms.Form):
 class SigninForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(min_length=6, widget=forms.PasswordInput())
-    
+
 
 class UserCreationForm(UserCreationForm):
 
@@ -55,7 +57,7 @@ class UserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
         fields = ('email', 'password', 'first_name', 'last_name',
-                  'is_active', 'is_admin','groups', 'user_permissions',)
+                  'is_active', 'is_admin', 'groups', 'user_permissions',)
 
 
 class AddHotelImg(forms.ModelForm):
@@ -69,6 +71,7 @@ class AddHotelImg(forms.ModelForm):
 
 
 class EditHotel(forms.ModelForm):
+
     class Meta:
         model = Hotel
         fields = [
@@ -129,6 +132,7 @@ class ProfileForm(forms.ModelForm):
 
 
 class ManagerEditChambre(forms.ModelForm):
+
     class Meta:
         model = Chambre
         fields = [
@@ -140,10 +144,12 @@ class ManagerEditChambre(forms.ModelForm):
             'beds',
             'category',
             'capacity',
+            'first_img',
         ]
 
 
 class AddChambreImg(forms.ModelForm):
+
     class Meta:
         model = Image_Chambre
         fields = [

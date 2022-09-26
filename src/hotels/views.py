@@ -11,7 +11,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from accounts.models import CustomUser
-from hotels.models import Chambre, Equipement, Equipement_Hotel, Hotel, Payement, Reservation
+from hotels.models import Chambre, Equipement, Equipement_Hotel, Hotel, Image_Hotel, Payement, Reservation
 
 from django.contrib import messages
 from django.template.loader import render_to_string
@@ -85,6 +85,8 @@ def hotel_detail(request, slug):
     t1 = request.session.get('date01')
     t2 = request.session.get('date02')
     room_list = Chambre.objects.filter(hotel=hotel.id)
+    imgs = Image_Hotel.objects.filter(hotel=hotel.id)
+
     available_rooms = []
     for room in room_list:
         if check_availability(room, t1, t2):
@@ -92,7 +94,7 @@ def hotel_detail(request, slug):
 
     equipements = Equipement_Hotel.objects.filter(hotel=hotel.id)
 
-    return render(request, 'hotels/hotels/hotel.html', context={"hotel": hotel, "chambres": available_rooms, "equipements": equipements, "t1": t1})
+    return render(request, 'hotels/hotels/hotel.html', context={"hotel": hotel, "chambres": available_rooms, "equipements": equipements, "t1": t1, "imgs": imgs})
 
 
 def hotel_check_avail(request, slug):

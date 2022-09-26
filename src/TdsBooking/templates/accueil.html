@@ -1,5 +1,6 @@
 {% extends 'TdsBooking/layouts/base.html'%}
 {% load static %}
+{% load lien %}
 
 {% block title %}
 <title>Accueil</title>
@@ -155,7 +156,7 @@ a {
           <div class="storys-container d-flex flex-row " >
               
                 <div class="card " >
-                    <img class="card-img-top" src="/static/img/hotel-1.jpg" alt="Card image cap" >
+                    <img class="card-img-top" src=" {{ hotel.first_img.url }} " alt="Card image cap" >
                     <div class="card-body ">
                         <h5>
                           <span>{{ hotel.name }}</span>
