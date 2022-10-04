@@ -100,8 +100,20 @@
                     <div class="form-group">
                         <label>Pays</label>
                         <div>
-                             {% render_field profile_form.country value=profile.country class="form-control"  placeholder="Pays" %}
+                              <select name="country" class="form-control">
+                                    {% if profile.country %}
+                                        <option value=" {{ profile.country }} "> {{ profile.country }} </option>
+                                    {% else %}
+                                        <option value="none" selected disabled hidden>Veuillez selectionner un pays</option>
+                                    {% endif %}
+                                    <hr>
+                                    {% for country in countries %}
+                                        <option value="{{ country.translations.fr }}"> {{ country.translations.fr }}</option> 
+                                    {% endfor %}
+                                </select>
                         </div>
+
+                        
                     </div>
                     <div class="form-group">
                         <label>Genre</label>

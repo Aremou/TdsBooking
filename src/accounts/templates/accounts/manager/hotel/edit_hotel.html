@@ -46,7 +46,8 @@
                         <div class="form-group">
                             <label>Description</label>
                             <div>
-                                {% render_field form.description class="form-control" value=hotel.description rows="4" placeholder="Description" %}
+                                {{ form.media }}
+                                {% render_field form.description  class="form-control" value=hotel.description rows="4" placeholder="Description" %}
                             </div>
                         </div>
     

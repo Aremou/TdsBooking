@@ -156,11 +156,15 @@ a {
           <div class="storys-container d-flex flex-row " >
               
                 <div class="card " >
-                    <img class="card-img-top" src=" {{ hotel.first_img.url }} " alt="Card image cap" >
+                    <a href=" {% url 'hotel' hotel.slug %} ">
+                      <img class="card-img-top" src=" {{ hotel.first_img.url }} " alt="Card image cap" >
+                    </a>
                     <div class="card-body ">
-                        <h5>
-                          <span>{{ hotel.name }}</span>
-                        </h5>
+                        <a href=" {% url 'hotel' hotel.slug %} ">
+                          <h5>
+                            <span>{{ hotel.name }}</span>
+                          </h5>
+                        </a>
                       <p class="card-text mb-0">{{ hotel.ville }}</p>
                       
                       <div class="row">
