@@ -15,9 +15,9 @@
 
 <script src="https://www.paypal.com/sdk/js?client-id=AQtjejSKUs6rpWQG3zwuI_xYshQrAx0zZqeT0zjZWa3bRSUc_21Ab-fg2CdIm1NB-BkvSZxh-5T5BQ4X&currency=USD"></script>
 
-<div class="container mb-5">
+<div class="container mt-9 mb-5">
     <div class="row mt-md-5">
-        <div class="col-md-12">
+        <div class="col-md-12 mt-5">
             <div class="alert alert-info text-center" role="alert">
                 Veuillez patienter pendant que nous vous dirigeons vers le service de paiement ... 
             </div>
@@ -53,11 +53,12 @@
 {% block script %}
 
 <script amount="{{ reservation.amount }}" 
-    callback="http://localhost:8000/hotels/paiement/{{ reservation.id }}/{{ type_paiement }}/paiement-process/"
+    callback="http://localhost:8000/hotels/paiement/{{ reservation.token }}/{{ type_paiement }}/paiement-process/"
     data=""
-    firstname="{{ reservation.user.first_name }}"
-    lastname="{{ reservation.user.last_name }}"
+    name="{{ reservation.user.first_name }} {{ reservation.user.last_name }}"
     email="{{ reservation.user.email }}"
+    phone="{{ reservation.user.tel }}"
+    paymentmethod="{{ type_paiement }}"
     url="https://technodatasolutions.bj/img/logo.png"
     position="center" 
     theme="#0095ff"

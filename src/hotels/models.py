@@ -98,7 +98,7 @@ class Reservation(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
     secret_key = models.CharField(max_length=100, blank=True, null=True)
-    token = models.CharField(max_length=100, blank=True, null=True)
+    token = models.CharField(max_length=500, blank=True, null=True)
     chambre = models.ForeignKey(Chambre, on_delete=models.CASCADE)
     amount = models.PositiveIntegerField(blank=True, null=True)
     check_in = models.DateField()

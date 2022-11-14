@@ -1,16 +1,19 @@
 {% load static %}
+<!-- Page Preloder -->
 <div id="preloder">
     <div class="loader"></div>
-</div> 
+</div>
 
-
+<!-- Offcanvas Menu Begin -->
 <div class="offcanvas-menu-overlay"></div>
 <div class="offcanvas-menu-wrapper">
     <div class="offcanvas__logo">
-        <a href="./index.html"><img src="{% static '/static/img/logo1.png'%}" alt=""></a>
+        <a href="./index.html"><img src="img/logo.png" alt=""></a>
     </div>
-    <div id="mobile-menu-wrap">dkdfj</div>
-    
+    <div id="mobile-menu-wrap"></div>
+    <div class="offcanvas__btn__widget">
+        <a href="#">Book Now <span class="arrow_right"></span></a>
+    </div>
     <div class="offcanvas__widget">
         <ul>
             <li><span class="icon_pin_alt"></span> 96 Ernser Vista Suite 437, NY, US</li>
@@ -28,15 +31,15 @@
     </div>
     <div class="offcanvas__auth">
         <ul>
-            <li><a href="/a-propos">À propos</a></li>
-            <li><a href="/contact">Contact</a></li>
-            <li><a href="/connexion/">Se connecter</a></li>
+            <li><a href="#">Login</a></li>
+            <li><a href="#">Register</a></li>
         </ul>
     </div>
 </div>
+<!-- Offcanvas Menu End -->
 
 
-<header class="header" >
+<header class="header fixed-top" >
         <div class="header__top">
             <div class="container">
                 <div class="row">
@@ -85,12 +88,12 @@
                             </div>
                             <div class="header__top__language">
                                 <img src="{% static 'img/lan.png'%}" alt="">
-                                <select class="w-auto" style="border: none; background-color: transparent;">
-                                  <option value="">Français</option> 
-                                  <option value="">English</option>  
-                                </select>
-                            </img>
-                        </div>
+                                    <select class="w-auto" style="border: none; background-color: transparent;">
+                                        <option value="">Français</option> 
+                                        <option value="">English</option>  
+                                    </select>
+                                </img>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -109,7 +112,7 @@
                                 <ul class="menu__class">
                                     <li class="active"><a href="/">Accueil</a></li>
                                     <li><a href="/hotels">Hôtels</a></li>
-                                    <li><a href="./about.html">Restaurants</a></li>
+                                    <li><a href="#">Restaurants</a></li>
                                     <li><a href="#">Location de voiture</a></li>
                                    
                                 </ul>

@@ -1,3 +1,4 @@
+from ast import arg
 from curses.ascii import NUL
 import decimal
 import string
@@ -11,7 +12,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from accounts.models import CustomUser
-from hotels.models import Chambre, Equipement, Equipement_Hotel, Hotel, Image_Hotel, Payement, Reservation
+from hotels.models import Chambre, Equipement, Equipement_Hotel, Hotel, Image_Chambre, Image_Hotel, Payement, Reservation
 
 from django.contrib import messages
 from django.template.loader import render_to_string
@@ -70,13 +71,20 @@ def search_hotel(request):
 
 def hotels_view(request):
 
+    t1 = ""
+    t2 = ""
+
+    if request.session.get('date01', False):
+        t1 = request.session['date01']
+        t2 = request.session['date02']
+
     hotels = Hotel.objects.all()
     chambres = Chambre.objects.all().exclude(is_delete=True)
     paginator = Paginator(hotels, 9)
     page_number = request.GET.get('page')
     page_object = paginator.get_page(page_number)
 
-    return render(request, 'hotels/hotels/index.html', context={"hotels": page_object, "chambres": chambres})
+    return render(request, 'hotels/hotels/index.html', context={"hotels": page_object, "chambres": chambres, 'd1': t1, 'd2': t2})
 
 
 def hotel_detail(request, slug):
@@ -98,7 +106,6 @@ def hotel_detail(request, slug):
 
 
 def hotel_check_avail(request, slug):
-    print(slug)
     hotel = get_object_or_404(Hotel, slug=slug)
     date = request.GET['date']
     t = date.split("-")
@@ -114,8 +121,9 @@ def chambre_detail(request, slug, number):
     chambre = get_object_or_404(Chambre, number=number)
     hotel = get_object_or_404(Hotel, slug=slug)
     equipements = Equipement.objects.filter(chambre=chambre.id)
+    imgs = Image_Chambre.objects.filter(chambre=chambre.id)
 
-    return render(request, 'detail_chambre.html', context={"chambre": chambre, "hotel": hotel, "equipements": equipements})
+    return render(request, 'detail_chambre.html', context={"chambre": chambre, "hotel": hotel, "equipements": equipements, "imgs": imgs})
 
 
 def scret_key_generator(size=6, chars=string.ascii_uppercase + string.digits):
@@ -150,7 +158,8 @@ def reservation_hotel(request, slug, number):
         tel = request.POST.get('tel')
 
         password = ''
-        characters = list(string.ascii_letters + string.digits + "!@#$%&()")
+        characters = list(string.ascii_letters +
+                          string.digits + "!@#$_/[]%&()")
 
         for i in range(8):
             password += random.choice(characters)
@@ -175,29 +184,31 @@ def reservation_hotel(request, slug, number):
 
         reserv = Reservation.objects.create(
             user_id=user.id, secret_key=key, token=token, chambre_id=chambre.id, check_in=x1, check_out=x2, amount=amount)
-
+        print(reserv.token)
         return HttpResponseRedirect(reverse('transition', args=[reserv.token, request.POST.get('check')]))
 
     return render(request, 'hotels/reservation/index.html', context={"chambre": chambre, "hotel": hotel, "date1": a, "date2": b, "amount": amount, "sejour": sejour, })
 
 
 def transition(request, token, type):
+
     reserv = Reservation.objects.get(token=token)
+
     return render(request, 'hotels/transition.html', {'type_paiement': type, 'reservation': reserv})
 
 
-def pay_process(request, number, type):
+def pay_process(request, token, type):
 
     transaction_id = request.GET['transaction_id']
+    reserv = Reservation.objects.get(token=token)
 
     token = get_random_string(length=32)
     while Payement.objects.filter(token=token).exists():
         token = get_random_string(length=32)
 
     Payement.objects.create(transaction_id=transaction_id, token=token, payment_method=type,
-                            reservation_id=number)
-    Reservation.objects.filter(pk=number).update(status='EC')
-    reserv = Reservation.objects.get(pk=number)
+                            reservation_id=reserv.id)
+    Reservation.objects.filter(token=token).update(status='EC')
 
     template = render_to_string('hotels/email/confirmation_booking.html', {
         'reserv': reserv})
@@ -213,8 +224,12 @@ def pay_process(request, number, type):
 
     mail.send()
 
-    return redirect('hotels')
+    return HttpResponseRedirect(reverse('recap', args=[reserv.token]))
 
 
-def booking_recap(request):
-    return render(request, 'hotels/reservation/recap.html')
+def booking_recap(request, token):
+    reserv = Reservation.objects.get(token=token)
+    x1 = dateparser.parse(str(reserv.check_in))
+    x2 = dateparser.parse(str(reserv.check_out))
+    sejour = (x2 - x1).days
+    return render(request, 'hotels/reservation/recap.html', {"reserv": reserv, "sejour": sejour})

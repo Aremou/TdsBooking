@@ -44,13 +44,9 @@ def add_room(request):
             beds = form.cleaned_data.get('beds')
             capacity = form.cleaned_data.get('capacity')
             first_img = form.cleaned_data.get('first_img')
-            print(first_img)
-            print(request.FILES['first_img'])
-            img = Image.objects.create(
-                name=name, image=first_img, token=123456789)
 
             Chambre.objects.create(hotel=manager.hotel, name=name, number=number, description=description,
-                                   area=area, overnight=overnight, beds=beds, category=category, token=token, capacity=capacity, first_img=1)
+                                   area=area, overnight=overnight, beds=beds, category=category, token=token, capacity=capacity, first_img=first_img)
 
     form = ManagerEditChambre(request.GET)
 

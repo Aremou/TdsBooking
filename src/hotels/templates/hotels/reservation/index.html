@@ -208,6 +208,7 @@
 		"https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
 	});
 
+
 	const info = document.querySelector("#tel");
     const error = document.querySelector(".alert-error");
 
@@ -216,6 +217,9 @@
 		event.preventDefault();
 
 		const phoneNumber = phoneInput.getNumber();
+
+		console.log(phoneNumber);
+		
 
 		const data = new URLSearchParams();
 		data.append("phone", phoneNumber);

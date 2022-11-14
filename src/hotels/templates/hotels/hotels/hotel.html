@@ -14,19 +14,6 @@
 
 <link rel="stylesheet" type="text/css" href="{% static '/css/daterangepicker.css' %}" />
 
-
-{% comment %} <style>
-
-img:hover{
-	transform: scale(1.2);  
-}
-
-img{
-	transition: all .5s;
-}
-
-</style> {% endcomment %}
-
 <style>
 ol li {
 	list-style: none;
@@ -82,13 +69,13 @@ ol li {
 						<div id="room-thumbnail--slide" class="carousel slide carousel-fade" data-ride="carousel">
 							<div class="carousel-inner">
 								<div class="carousel-item active" style="height: 400px">
-									<img src="{{ hotel.first_img.url }}" class="d-block w-100 h-100" alt="2">
+									<img src="{{ hotel.first_img.url }}" class="d-block w-100 h-100" alt=" {{ hotel.name }} ">
 								</div>
 
 								{% for img in imgs %}
 								
 									<div class="carousel-item" style="height: 400px">
-										<img src=" {{ img.image.url }} "  class="d-block w-100 h-100" alt="3">
+										<img src=" {{ img.image.url }} "  class="d-block w-100 h-100" alt=" {{ img.name }} ">
 									</div>
 								{% endfor %}
 
@@ -237,7 +224,7 @@ ol li {
 								   <div class="row p-3 mt-4" style="box-shadow: 0 4px 21px -12px rgba(0, 0, 0,
 								   0.66);border:none;">
 									   <div class="col-md-3 p-0">
-										   <img class="img-thumbnail h-auto" src="{% static 'img/room-5.jpg' %}" style="border-top-left-radius: 5px;border-top-right-radius:
+										   <img class="img-thumbnail h-auto" src=" {{ chambre.first_img.url }} " style="border-top-left-radius: 5px;border-top-right-radius:
 											   5px;border-bottom-right-radius: 5px;">
 									   </div>
 									   <div class="col-md-6 py-0">
