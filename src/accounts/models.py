@@ -7,7 +7,7 @@ from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 # Create your models here.
 from django.core.validators import FileExtensionValidator
 
-from hotels.models import Hotel
+from hotels.models import Chambre, Hotel
 
 
 class MyUserManager(BaseUserManager):
@@ -95,3 +95,17 @@ class HotelManager (models.Model):
 
     def __str__(self):
         return self.user.email
+
+
+class HotelRatings(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
+    score = models.IntegerField()
+    comments = models.TextField(blank=True, null=True)
+
+
+class RoomRatings(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    room = models.ForeignKey(Chambre, on_delete=models.CASCADE)
+    score = models.IntegerField()
+    comments = models.TextField(blank=True, null=True)

@@ -92,17 +92,19 @@ def hotel_detail(request, slug):
     hotel = get_object_or_404(Hotel, slug=slug)
     t1 = request.session.get('date01')
     t2 = request.session.get('date02')
+
     room_list = Chambre.objects.filter(hotel=hotel.id)
     imgs = Image_Hotel.objects.filter(hotel=hotel.id)
 
     available_rooms = []
-    for room in room_list:
-        if check_availability(room, t1, t2):
-            available_rooms.append(room)
+    if t1 and t2:
+        for room in room_list:
+            if check_availability(room, t1, t2):
+                available_rooms.append(room)
 
     equipements = Equipement_Hotel.objects.filter(hotel=hotel.id)
 
-    return render(request, 'hotels/hotels/hotel.html', context={"hotel": hotel, "chambres": available_rooms, "equipements": equipements, "t1": t1, "imgs": imgs})
+    return render(request, 'hotels/hotels/hotel.html', context={"hotel": hotel, "chambres": available_rooms, "equipements": equipements, "imgs": imgs})
 
 
 def hotel_check_avail(request, slug):

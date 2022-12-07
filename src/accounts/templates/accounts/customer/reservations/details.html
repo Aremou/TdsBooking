@@ -37,12 +37,15 @@
                     <h4 class="mt-0 header-title"> {{ reservation.chambre.hotel.name }}</h4>
                     
 
-                    <dl class="row mb-0">
+                    <dl class="mb-0 row">
                         <dt class="col-sm-4">Reference</dt>
                         <dd class="col-sm-8">{{ reservation.id }}</dd>
 
                         <dt class="col-sm-4">Code confidentiel </dt>
                         <dd class="col-sm-8">{{ reservation.secret_key }}</dd>
+                        
+                        <dt class="col-sm-4">Chambre </dt>
+                        <dd class="col-sm-8">{{ reservation.chambre.number }}</dd>
                         
                         <dt class="col-sm-4">Statut </dt>
                         <dd class="col-sm-8">{{ reservation.status }}</dd>
@@ -56,6 +59,51 @@
 
                     </dl>
                     
+                </div>
+
+            </div>
+            <div class="card m-b-30">
+                <div class="card-body">
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                          <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#note-hotel" role="tab" aria-controls="nav-home" aria-selected="true">Noter l'hôtel </a>
+                          <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#note-chambre" role="tab" aria-controls="nav-profile" aria-selected="false">Noter la chambre</a>
+                        </div>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="note-hotel" role="tabpanel" aria-labelledby="nav-home-tab">
+                              <form method="POST" action=" {% url 'hotel-ratings' reservation.token %} ">
+                                {% csrf_token %}
+                                  <div class="mb-3">
+                                    
+                                    <label for="score" class="form-label">Score (?/10) <b style="color:red" >*</b></label>
+                                    <input type="number" class="form-control" name="score" value="{{ hotel_rating.score }}" id="score"  placeholder="?/10" min="0" max="10" required >
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="comments" class="form-label">Commentaires</label>
+                                    <textarea class="form-control" name="comments" id="comments" placeholder="Entrez votre commentaire" >{{ hotel_rating.comments }}</textarea>
+                                  </div>
+                                  
+                                  <button type="submit" class="btn btn-primary">Enrégistrer</button>
+                            </form>
+                        </div>
+                        <div class="tab-pane fade" id="note-chambre" role="tabpanel" aria-labelledby="nav-profile-tab">
+                            <form  method="POST" action="{% url 'room-ratings' reservation.token %}">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                  <label for="score" class="form-label">Score<b style="color:red" >*</b></label>
+                                  <input type="number" name="score"  class="form-control" id="score"  placeholder="?/10" min="0" max="10" >
+                                </div>
+                                <div class="mb-3">
+                                  <label for="comments" class="form-label">Commentaires</label>
+                                  <textarea class="form-control" name="comments" id="comments" placeholder="Entrez votre commentaire" ></textarea>
+                                  
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">Enrégistrer</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
 
             </div>

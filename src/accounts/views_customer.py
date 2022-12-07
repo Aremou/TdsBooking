@@ -1,5 +1,6 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
+from accounts.models import CustomUser, HotelRatings, RoomRatings
 from kkiapay import Kkiapay
 from django.contrib.auth.decorators import login_required
 
@@ -8,7 +9,7 @@ from django.shortcuts import render
 
 from django.urls import reverse
 
-from hotels.models import Payement, Reservation
+from hotels.models import Chambre, Hotel, Payement, Reservation
 
 
 @login_required(login_url='connexion')
@@ -23,8 +24,16 @@ def mes_reservations(request):
 def detail_reservation(request, token):
 
     reservation = get_object_or_404(Reservation, token=token)
+    room_rating = ""
+    hotel_rating = ""
 
-    return render(request, 'accounts/customer/reservations/details.html', {'reservation': reservation})
+    hotel_rating = HotelRatings.objects.get(
+        user=request.user.id, hotel=reservation.chambre.hotel_id)
+
+    room_rating = RoomRatings.objects.get(
+        user=request.user.id, room=reservation.chambre.hotel_id)
+
+    return render(request, 'accounts/customer/reservations/details.html', {'reservation': reservation, 'hotel_rating': hotel_rating, 'room_rating': room_rating})
 
 
 @login_required(login_url='connexion')
@@ -72,3 +81,43 @@ def customer_dashboard(request):
     total_payment = payment.count()
 
     return render(request, 'accounts/customer/dashboard/index.html', {'total': total, 'total_payment': total_payment})
+
+
+def hotel_ratings(request, token):
+
+    reservation = get_object_or_404(Reservation, token=token)
+
+    if request.method == 'POST':
+
+        customer = CustomUser.objects.get(id=request.user.id)
+        customer_hotel = Hotel.objects.get(id=reservation.chambre.hotel_id)
+
+        HotelRatings.objects.update_or_create(
+            user=customer,
+            hotel=customer_hotel,
+            defaults={
+                'score': request.POST.get('score'),
+                'comments': request.POST.get('comments'),
+            })
+
+    return HttpResponseRedirect(reverse('reservation', args=[token]))
+
+
+def room_ratings(request, token):
+
+    reservation = get_object_or_404(Reservation, token=token)
+
+    if request.method == 'POST':
+
+        customer = CustomUser.objects.get(id=request.user.id)
+        customer_room = Chambre.objects.get(id=reservation.chambre.id)
+
+        RoomRatings.objects.update_or_create(
+            user=customer,
+            room=customer_room,
+            defaults={
+                'score': request.POST.get('score'),
+                'comments': request.POST.get('comments'),
+            })
+
+    return HttpResponseRedirect(reverse('reservation', args=[token]))

@@ -21,6 +21,10 @@ urlpatterns = [
          name='annul_reservation'),
     path('paiements/', views_customer.mes_paiements, name='paiements'),
     path('paiements/<str:token>/', views_customer.detail_paiement, name='paiement'),
+    path('hotel/<str:token>/notation/hotel',
+         views_customer.hotel_ratings, name='hotel-ratings'),
+    path('hotel/<str:token>/notation/chambre',
+         views_customer.room_ratings, name='room-ratings'),
 
     # Views_Manager
     path('manager/hotel', views_manager.manager_hotel, name='manager-hotel'),
