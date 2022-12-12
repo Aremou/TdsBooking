@@ -156,7 +156,8 @@ a {
           <div class="storys-container d-flex flex-row " >
               
                 <div class="card " >
-                    <img class="card-img-top" src=" {{ hotel.first_img.url }} " alt="Card image cap" >
+                    
+                    <img class="card-img-top" src=" {% if hotel.first_img %}{{ hotel.first_img.url }}{% endif %} " alt="Card image cap" >
                     <div class="card-body ">
                         <h5>
                           <span>{{ hotel.name }}</span>
