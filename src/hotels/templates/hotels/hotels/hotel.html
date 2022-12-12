@@ -198,12 +198,11 @@ ol li {
 					<div class="tab-content" id="myTabContent">
 						<div class="tab-pane fade show active" id="{{ hotel_categories.0 }}" role="tabpanel" aria-labelledby="{{ hotel_categories.0 }}-tab">
 							{% for chambre in hotel_categories.0|get_chambre_by_hotel %}
-								{% comment %} {% if chambre.category.name == "Suite" %} {% endcomment %}
 									<div class="row col-12 m-0">
 										<div class="row p-3 mt-4" style="box-shadow: 0 4px 21px -12px rgba(0, 0, 0,
 										0.66);border:none;">
 											<div class="col-md-3 p-0">
-												<img class="img-thumbnail h-auto" src=" {{ chambre.first_img.url }} " style="border-top-left-radius: 5px;border-top-right-radius:
+												<img class="img-thumbnail img-responsive h-75" src=" {{ chambre.first_img.url }} " style="border-top-left-radius: 5px;border-top-right-radius:
 													5px;border-bottom-right-radius: 5px;">
 											</div>
 											<div class="col-md-6 py-0">
@@ -213,13 +212,13 @@ ol li {
 											<div class="col-md-3 py-0 pr-0">
 												<div class="row w-100 m-0 mb-md-4">
 													<div class="col-md-10">
-														<div class="float-right">Exceptionnel </div>
+														<div class="float-right"></div>
 														
 													</div>
 													<div class="text-center ml-auto" style="background-color:blue; height: 25px; width: 35px;border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom-right-radius: 5px;color: white;">
-														9,5
+														{{ chambre.id|get_room_score }}
 													</div>
-													<div class="w-auto ml-auto"> 198 experiences vécues</div>
+													<div class="w-auto ml-auto"> {{ chambre.id|get_room_experiences }} experiences</div>
 												</div>
 												<div class="row col-12 float-right w-auto mb-md-3">
 													<span class="">XOF {{ chambre.overnight | intcomma}}</span>
@@ -230,7 +229,6 @@ ol li {
 											</div>
 										</div>
 									</div>
-								{% comment %} {% endif %} {% endcomment %}
 							{% endfor %}
 						</div>
 
@@ -251,14 +249,16 @@ ol li {
 												</div>
 												<div class="col-md-3 py-0 pr-0">
 													<div class="row w-100 m-0 mb-md-4">
-														<div class="col-md-10">
-															<div class="float-right">Exceptionnel </div>
-															
-														</div>
-														<div class="text-center ml-auto" style="background-color:blue; height: 25px; width: 35px;border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom-right-radius: 5px;color: white;">
-															9,5
-														</div>
-														<div class="w-auto ml-auto"> 198 experiences vécues</div>
+														{% if chambre.id|get_room_score %}
+															<div class="col-md-10">
+																<div class="float-right"></div>
+																
+															</div>
+															<div class="text-center ml-auto" style="background-color:blue; height: 25px; width: 35px;border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom-right-radius: 5px;color: white;">
+																{{ chambre.id|get_room_score }}
+															</div>
+															<div class="w-auto ml-auto"> {{ chambre.id|get_room_experiences }} experiences</div>
+														{% endif %}
 													</div>
 													<div class="row col-12 float-right w-auto mb-md-3">
 														<span class="">XOF {{ chambre.overnight | intcomma }}</span>
