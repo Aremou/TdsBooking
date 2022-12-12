@@ -11,8 +11,9 @@ from datetime import date, datetime
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+import requests
 from accounts.models import CustomUser
-from hotels.models import Chambre, Equipement, Equipement_Hotel, Hotel, Image_Chambre, Image_Hotel, Payement, Reservation
+from hotels.models import Category, Chambre, Equipement, Equipement_Hotel, Hotel, Image_Chambre, Image_Hotel, Payement, Reservation
 
 from django.contrib import messages
 from django.template.loader import render_to_string
@@ -95,6 +96,7 @@ def hotel_detail(request, slug):
 
     room_list = Chambre.objects.filter(hotel=hotel.id)
     imgs = Image_Hotel.objects.filter(hotel=hotel.id)
+    hotel_categories = Category.objects.all()
 
     available_rooms = []
     if t1 and t2:
@@ -104,7 +106,7 @@ def hotel_detail(request, slug):
 
     equipements = Equipement_Hotel.objects.filter(hotel=hotel.id)
 
-    return render(request, 'hotels/hotels/hotel.html', context={"hotel": hotel, "chambres": available_rooms, "equipements": equipements, "imgs": imgs})
+    return render(request, 'hotels/hotels/hotel.html', context={"hotel": hotel, "chambres": available_rooms, "equipements": equipements, "imgs": imgs, "hotel_categories": hotel_categories})
 
 
 def hotel_check_avail(request, slug):
@@ -120,6 +122,7 @@ def hotel_check_avail(request, slug):
 
 def chambre_detail(request, slug, number):
 
+    print('t')
     chambre = get_object_or_404(Chambre, number=number)
     hotel = get_object_or_404(Hotel, slug=slug)
     equipements = Equipement.objects.filter(chambre=chambre.id)
@@ -133,6 +136,10 @@ def scret_key_generator(size=6, chars=string.ascii_uppercase + string.digits):
 
 
 def reservation_hotel(request, slug, number):
+
+    resp = requests.get("https://restcountries.com/v3.1/all")
+
+    countries = resp.json
 
     key = scret_key_generator()
     while Reservation.objects.filter(secret_key=key).exists():
@@ -189,7 +196,7 @@ def reservation_hotel(request, slug, number):
         print(reserv.token)
         return HttpResponseRedirect(reverse('transition', args=[reserv.token, request.POST.get('check')]))
 
-    return render(request, 'hotels/reservation/index.html', context={"chambre": chambre, "hotel": hotel, "date1": a, "date2": b, "amount": amount, "sejour": sejour, })
+    return render(request, 'hotels/reservation/index.html', context={"chambre": chambre, "hotel": hotel, "date1": a, "date2": b, "amount": amount, "sejour": sejour, "countries": countries})
 
 
 def transition(request, token, type):

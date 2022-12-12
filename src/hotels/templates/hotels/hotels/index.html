@@ -1,6 +1,6 @@
 {% extends 'TdsBooking/layouts/base.html'%}
 {% load static %}
-{% load min_price %}
+{% load site_public.tags_hotel %}
 {% load humanize %}
 
 
@@ -79,14 +79,32 @@
 
                       </div>
                       <div class="col-md-3 py-0 pr-0">
-                        <div class="row w-100 m-0 mb-md-4">
-                          <div class="col-md-10">
-                            <div class="float-right"></div>                           
-                          </div>                              
-                        </div>
+                        <div class=" w-100 m-0 mb-md-4">
+													{% if hotel.token|get_hotel_score %}
+
+
+                          <div class="d-flex flex-column">
+
+                            <div class="d-flex flex-column-reverse" >
+                              <div class="text-center ml-auto" style="background-color:blue; height: 25px; width: 35px;border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom-right-radius: 5px;color: white;">
+                                {{ hotel.token|get_hotel_score }}
+                              </div>
+                            </div>
+                            <div class="d-flex flex-column-reverse" >
+                              <span class="ml-auto" > {{ hotel.token|get_hotel_experiences }} expériences</span>
+                            </div>
+                          </div>
+
+                            
+                          
+                          
+                          {% endif %}
+                            
+												</div>
                         <div class="col-12 float-right w-auto mb-md-3">
-                          <p style="font-size: 15px" class="mb-0 mt-4 text-right">À partir de :</p>
+                          <p style="font-size: 15px" class="mb-0 text-right">À partir de :</p>
                           <span class=""> {{ hotel.token|min_price|intcomma }} F CFA</span>
+
                         </div>
                                                
                         <div class="row col-12 m-0 p-0 fixed-bottom" style="position:absolute !important; z-index:auto">

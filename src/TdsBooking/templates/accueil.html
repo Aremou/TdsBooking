@@ -1,6 +1,8 @@
 {% extends 'TdsBooking/layouts/base.html'%}
 {% load static %}
-{% load lien %}
+{% load site_public.tags_hotel %}
+{% load humanize %}
+
 
 {% block title %}
 <title>Accueil</title>
@@ -153,34 +155,31 @@ a {
           <!-- <button class="btn-scroll" id="btn-scroll-left" onclick="scrollHorizontally(1)"><i class="fa-solid fa-angle-left"></i></button>
           <button class="btn-scroll" id="btn-scroll-right" onclick="scrollHorizontally(-1)"><i class="fa-solid fa-angle-right"></i></button> -->
           {% for hotel in hotels %}
-          <div class="storys-container d-flex flex-row " >
-              
-                <div class="card " >
+            <div class="storys-container d-flex flex-row " >
+              <div class="card">
+                <a href=" {% url 'hotel' hotel.slug %} ">
+                  <img class="card-img-top" src=" {{ hotel.first_img.url }} " alt="Card image cap" >
+                </a>
+                <div class="card-body ">
                     <a href=" {% url 'hotel' hotel.slug %} ">
-                      <img class="card-img-top" src=" {{ hotel.first_img.url }} " alt="Card image cap" >
+                      <h5>
+                        <span>{{ hotel.name }}</span>
+                      </h5>
                     </a>
-                    <div class="card-body ">
-                        <a href=" {% url 'hotel' hotel.slug %} ">
-                          <h5>
-                            <span>{{ hotel.name }}</span>
-                          </h5>
-                        </a>
-                      <p class="card-text mb-0">{{ hotel.ville }}</p>
-                      
-                      <div class="row">
-                        <div class="col-6 d-flex flex-row">
-                            <div class="text-center" style="background-color:blue; height: 25px; width: 35px;border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom-right-radius: 5px;color: white;">
-                              9,5
-                            </div> <span class="ml-1">Fabuleux</span>
-                        </div>
-                        <div class="col-6">
-                          <h6>Dès 15.000 f</h6>
-                        </div>
-                      </div>
+                    <p class="card-text mb-0">{{ hotel.ville }}</p>
+                  
+                    <div class="">
+                          {% if hotel.token|get_hotel_score %}
+                            <div class="text-center d-inline-block" style="background-color:blue; height: 25px; width: 35px;border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom-right-radius: 5px;color: white;">
+                              {{ hotel.token|get_hotel_score }}
+                            </div> 
+                          {% endif %}
+                          <h6 class="d-inline-block float-right">Dès {{ hotel.token|min_price|intcomma }} F CFA</h6>
                     </div>
-                  </div> 
                 </div>
-              {% endfor %}
+              </div> 
+            </div>
+          {% endfor %}
       </div>
       <div class="d-flex justify-content-end" style="color:#0831D4">
         <a href="/hotels">

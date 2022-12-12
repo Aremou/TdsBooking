@@ -27,11 +27,17 @@ def detail_reservation(request, token):
     room_rating = ""
     hotel_rating = ""
 
-    hotel_rating = HotelRatings.objects.get(
-        user=request.user.id, hotel=reservation.chambre.hotel_id)
+    try:
+        hotel_rating = HotelRatings.objects.get(
+            user=request.user.id, hotel=reservation.chambre.hotel_id)
+    except HotelRatings.DoesNotExist:
+        pass
 
-    room_rating = RoomRatings.objects.get(
-        user=request.user.id, room=reservation.chambre.hotel_id)
+    try:
+        room_rating = RoomRatings.objects.get(
+            user=request.user.id, room=reservation.chambre.hotel_id)
+    except RoomRatings.DoesNotExist:
+        pass
 
     return render(request, 'accounts/customer/reservations/details.html', {'reservation': reservation, 'hotel_rating': hotel_rating, 'room_rating': room_rating})
 

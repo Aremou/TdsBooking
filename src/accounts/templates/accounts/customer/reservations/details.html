@@ -92,11 +92,11 @@
                                 {% csrf_token %}
                                 <div class="mb-3">
                                   <label for="score" class="form-label">Score<b style="color:red" >*</b></label>
-                                  <input type="number" name="score"  class="form-control" id="score"  placeholder="?/10" min="0" max="10" >
+                                  <input type="number" name="score" value="{{ room_rating.score }}" class="form-control" id="score"  placeholder="?/10" min="0" max="10" >
                                 </div>
                                 <div class="mb-3">
                                   <label for="comments" class="form-label">Commentaires</label>
-                                  <textarea class="form-control" name="comments" id="comments" placeholder="Entrez votre commentaire" ></textarea>
+                                  <textarea class="form-control" name="comments" id="comments" placeholder="Entrez votre commentaire" >{{ room_rating.comments }}</textarea>
                                   
                                 </div>
                                 
