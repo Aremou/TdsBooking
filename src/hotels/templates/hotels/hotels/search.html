@@ -1,5 +1,6 @@
 {% extends 'TdsBooking/layouts/base.html'%}
 {% load static %}
+{% load site_public.tags_hotel %}
 {% load humanize %}
 
 {% block title %}
@@ -79,11 +80,24 @@
 
                       </div>
                       <div class="col-md-3 py-0 pr-0">
-                        <div class="row w-100 m-0 mb-md-4">
-                          <div class="col-md-10">
-                            <div class="float-right"></div>
-                            
+                        <div class="w-100 ">
+                          {% if av.hotel.token|get_hotel_score %}
+
+
+                          <div class="d-flex flex-column">
+
+                            <div class="d-flex flex-column-reverse" >
+                              <div class="text-center ml-auto" style="background-color:blue; height: 25px; width: 35px;border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom-right-radius: 5px;color: white;">
+                                {{ av.hotel.token|get_hotel_score }}
+                              </div>
+                            </div>
+                            <div class="d-flex flex-column-reverse" >
+                              <span class="ml-auto" > {{ av.hotel.token|get_hotel_experiences }} expériences</span>
+                            </div>
                           </div>
+
+
+                          {% endif %}
                           
                           
                         </div>

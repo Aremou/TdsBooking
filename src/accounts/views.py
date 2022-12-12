@@ -8,6 +8,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.urls import reverse, reverse_lazy
+import requests
 from accounts.forms import ProfileForm, SignupForm, SigninForm, UserForm
 from accounts.models import CustomUser, Profile
 
@@ -63,13 +64,19 @@ def profil_view(request):
 
 def edit_profile(request):
 
+    data = requests.get("https://restcountries.com/v2/all").json()
+    print(request.POST.get('country'))
     profile = Profile.objects.get(user=request.user)
 
     if request.method == 'POST':
         user_form = UserForm(request.POST,
                              instance=request.user)
+
         profile_form = ProfileForm(
             request.POST, request.FILES, instance=profile)
+
+        profile.country = request.POST.get('country')
+        profile.save()
 
         if user_form.is_valid():
 
@@ -84,4 +91,4 @@ def edit_profile(request):
         user_form = UserForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.profile)
 
-    return render(request, 'accounts/auth/profil/edit.html', {'user_form': user_form, 'profile_form': profile_form, 'profile': profile})
+    return render(request, 'accounts/auth/profil/edit.html', {'user_form': user_form, 'profile_form': profile_form, 'profile': profile, 'countries': data})

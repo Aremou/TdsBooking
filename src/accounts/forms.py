@@ -122,7 +122,6 @@ class ProfileForm(forms.ModelForm):
         fields = [
             'gender',
             'birthdate',
-            'country',
             'profile_pic',
             'update_at',
         ]

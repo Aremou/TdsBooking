@@ -1,3 +1,4 @@
+aniso8601==9.0.1
 appdirs==1.4.3
 APScheduler==3.9.1
 asgiref==3.5.1
@@ -12,14 +13,20 @@ cryptocode==0.1
 dateparser==1.1.1
 Django==4.0.4
 django-ckeditor==6.5.0
+django-graphql-jwt==0.3.4
 django-js-asset==2.0.0
 django-phonenumber-field==6.1.0
 django-softdelete==0.9.4
 django-widget-tweaks==1.4.12
 docutils==0.14
 Faker==13.12.0
+graphene==3.1
+graphene-django==2.0.0
+graphql-core==3.2.1
+graphql-relay==3.2.0
 idna==2.8
 importlib-metadata==0.18
+iso8601==1.0.2
 kkiapay==0.0.5
 mock==3.0.5
 more-itertools==7.1.0
@@ -28,9 +35,11 @@ packaging==19.0
 Pillow==9.1.1
 pkginfo==1.5.0.1
 pluggy==0.12.0
+promise==2.3
 py==1.8.0
 pycryptodomex==3.15.0
 Pygments==2.4.2
+PyJWT==2.4.0
 pymemcache==3.5.2
 pyparsing==2.4.0
 pytest==5.0.1
@@ -42,6 +51,7 @@ regex==2022.3.2
 requests==2.22.0
 requests-mock==1.6.0
 requests-toolbelt==0.9.1
+singledispatch==3.7.0
 six==1.16.0
 sqlparse==0.4.2
 toml==0.10.0

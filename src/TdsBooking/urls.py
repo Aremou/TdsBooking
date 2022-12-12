@@ -32,7 +32,6 @@ urlpatterns = [
     path('a-propos/', views.a_propos_view, name='a-propos'),
 
 
-    path('transition/<int:number>/<str:type>/', transition, name='transition'),
 
 
 ]
