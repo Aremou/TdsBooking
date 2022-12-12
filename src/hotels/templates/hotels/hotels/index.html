@@ -1,5 +1,8 @@
 {% extends 'TdsBooking/layouts/base.html'%}
 {% load static %}
+{% load site_public.tags_hotel %}
+{% load humanize %}
+
 
 {% block title %}
 <title>Hôtels</title>
@@ -21,31 +24,26 @@
 <section class="ftco-section ">
     <div class="container">
       <div class="row">
-        <div class="col-lg-3 sidebar ftco-animate">
+        <div class="col-lg-3 sidebar  ftco-animate">
               <div class="sidebar-wrap ftco-animate">
                   <form action="{% url 'name_search_hotel' %}" method='GET'>
-                    <div class="fields">
-                      <div class="form-group">
-                        <input type="text" name="search" class="form-control" placeholder="Oû allez-vous?">
-                      </div>
-                      <div class="form-group">
-                        <div class="select-wrap one-third">
-                        <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                        
-                      </div>
-                      </div>
-                      <div class="form-group">
-                        
-                        <input type="text" id="datepicker" name="date1" class="form-control checkin_date" placeholder="Date d'arrivée" readonly>
-                      </div>
-                      <div class="form-group">
-                        <input type="text" id="datepicker1" name="date2" class="form-control checkout_date" placeholder="Date de depart" readonly>
-                      </div>
-                      
-                      <div class="form-group">
-                        <input type="submit" value="Rechercher" class="btn btn-primary py-3 px-5">
-                      </div>
-                    </div>
+                        <div class="fields">
+                              <div class="form-group">
+                                <input type="text" name="search" class="form-control"  placeholder="Oû allez-vous?" required>
+                              </div>
+                                                  
+                              <div class="form-group">
+                                  <input type="text" id="datepicker" name="date1" value='{{ d1 }}' class="form-control checkin_date" placeholder="Date d'arrivée" required readonly>
+                              </div>
+
+                              <div class="form-group">
+                                <input type="text" id="datepicker1" name="date2" value='{{ d2 }}' class="form-control checkout_date" placeholder="Date de depart" required readonly>
+                              </div>
+                              
+                              <div class="form-group">
+                                <input type="submit" value="Rechercher" class="btn btn-primary py-3 px-5">
+                              </div>
+                        </div>
               </form>
             </div>
               
@@ -56,7 +54,7 @@
                 <div class="col-12 m-0">
                   <div class="row p-2 mb-4 " style="background-color: white; border-radius: 5px;">
                       <div class="col-md-4 p-0">
-                        <img class="img img-thumbnail img-fluid" src=" {{ hotel.first_img.url }} " style=" width: 300px; height: 200px  ">
+                        <img class="img img-thumbnail img-fluid w-100 h-200 " src=" {{ hotel.first_img.url }} " >
                       </div>
                       <div class="col-md-5 py-0">
                         <div class="col-md-12 px-0 d-flex">
@@ -81,20 +79,33 @@
 
                       </div>
                       <div class="col-md-3 py-0 pr-0">
-                        <div class="row w-100 m-0 mb-md-4">
-                          <div class="col-md-10">
-                            <div class="float-right"></div>
-                            
+                        <div class=" w-100 m-0 mb-md-4">
+													{% if hotel.token|get_hotel_score %}
+
+
+                          <div class="d-flex flex-column">
+
+                            <div class="d-flex flex-column-reverse" >
+                              <div class="text-center ml-auto" style="background-color:blue; height: 25px; width: 35px;border-top-left-radius: 5px;border-top-right-radius: 5px;border-bottom-right-radius: 5px;color: white;">
+                                {{ hotel.token|get_hotel_score }}
+                              </div>
+                            </div>
+                            <div class="d-flex flex-column-reverse" >
+                              <span class="ml-auto" > {{ hotel.token|get_hotel_experiences }} expériences</span>
+                            </div>
                           </div>
-                          
-                          
-                        </div>
+
+
+                          {% endif %}
+                            
+												</div>
                         <div class="col-12 float-right w-auto mb-md-3">
-                          <p style="font-size: 15px" class="mb-0 mt-4 text-right">À partir de :</p>
-                          <span class=""> 25 252 F CFA</span>
+                          <p style="font-size: 15px" class="mb-0 text-right">À partir de :</p>
+                          <span class=""> {{ hotel.token|min_price|intcomma }} F CFA</span>
+
                         </div>
                                                
-                        <div class="row col-12 m-0 p-0 fixed-bottom" style="position:absolute !important">
+                        <div class="row col-12 m-0 p-0 fixed-bottom" style="position:absolute !important; z-index:auto">
                           
                           <a class="btn btn-primary ml-md-auto" href="{% url 'hotel' hotel.slug %}" role="button">Voir les disponibilités</a>
                         </div>
@@ -126,10 +137,9 @@
               {% endif %}
             </ul>
         
-
            </nav> 
     
-        </div> <!-- .col-md-8 -->
+        </div> 
       </div>
     </div>
 </section>

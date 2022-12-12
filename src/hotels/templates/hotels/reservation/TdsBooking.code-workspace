@@ -1,0 +1,39 @@
+{
+	"folders": [
+		{
+			"name": "TdsBooking",
+			"path": "../../../../.."
+		},
+		{
+			"name": "Drixo_v1.1.0",
+			"path": "../../../../../../../Drixo_v1.1.0"
+		},
+		{
+			"path": "../../../../../../../OnlineCV"
+		},
+		{
+			"path": "../../../../../../../../../../../var/www/html/moodle"
+		},
+		{
+			"path": "../../../../../../../Learning/learn_laravel"
+		},
+		{
+			"path": "../../../../../../../PythonGame"
+		},
+		{
+			"path": "../../../../../../../AI"
+		},
+		{
+			"path": "../../../../../../../Portfolio-TDS/tds-site"
+		},
+		{
+			"path": "../../../../../../../bkr-transport"
+		},
+		{
+			"path": "../../../../../../../../../Downloads/Logis"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "AI"
+	}
+}

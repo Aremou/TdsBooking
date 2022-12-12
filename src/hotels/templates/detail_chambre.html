@@ -56,47 +56,35 @@ ol li {
 					<div class="col-md-12  mb-2 ftco-animate">
 
 						
-							<div id="room-thumbnail--slide" class="carousel slide" data-ride="carousel">
+							<div id="room-thumbnail--slide" class="carousel slide carousel-fade" data-ride="carousel" >
 								<div class="carousel-inner">
-									<div class="carousel-item active">
-										<img src="{% static 'img/bg-img/48.jpg' %}" height="400" class="d-block w-100" alt="2">
+									<div class="carousel-item active" style="height: 400px">
+										<img src="{{ chambre.first_img.url }}" class="d-block w-100 h-100" alt=" {{ chambre.name }} ">
 									</div>
-									<div class="carousel-item" style="height: 400px">
-										<img src="{% static 'img/bg-img/49.jpg' %}"  class="d-block w-100" alt="3">
-									</div>
-									<div class="carousel-item" style="height: 400px">
-										<img src="{% static 'img/bg-img/50.jpg' %}" class="d-block w-100" alt="4">
-									</div>
-									<div class="carousel-item" style="height: 400px">
-										<img src="{% static 'img/bg-img/51.jpg' %}" class="d-block w-100 " alt="5">
-									</div>
-									<div class="carousel-item" style="height: 400px">
-										<img src="{% static 'img/bg-img/52.jpg' %}" class="d-block w-100" alt="6">
-									</div>
+
+									{% for img in imgs %}
+										<div class="carousel-item" style="height: 400px">
+											<img src=" {{ img.image.url }} "  class="d-block w-100 h-100" alt=" {{ img.name }} ">
+										</div>
+									{% endfor %}
+									
 								</div>
 						
-								<ol class="carousel-indicators mt-1">
+								<ol class="carousel-indicators mt-1" style="justify-content:normal !important">
 									<li data-target="#room-thumbnail--slide" data-slide-to="0" class="active">
-										<img src="{% static 'img/bg-img/48.jpg' %}" class="d-block w-100" alt="2">
+										<img class="img-fluid d-block" style=" width: 100px; height: 100px  " src="{{ chambre.first_img.url }}"   alt=" {{ chambre.name }} ">
 									</li>
-									<li data-target="#room-thumbnail--slide" data-slide-to="1">
-										<img src="{% static 'img/bg-img/49.jpg' %}" class="d-block w-100" alt="3">
-									</li>
-									<li data-target="#room-thumbnail--slide" data-slide-to="2">
-										<img src="{% static 'img/bg-img/50.jpg' %}" class="d-block w-100" alt="4">
-									</li>
-									<li data-target="#room-thumbnail--slide" data-slide-to="3">
-										<img src="{% static 'img/bg-img/51.jpg' %}" class="d-block w-100" alt="5">
-									</li>
-									<li data-target="#room-thumbnail--slide" data-slide-to="4">
-										<img src="{% static 'img/bg-img/52.jpg' %}" class="d-block w-100" alt="6">
-									</li>
+									{% for img in imgs %}
+										<li data-target="#room-thumbnail--slide" data-slide-to="{{ img.id }}">
+											<img src="{{ img.image.url }}" class="d-block " style=" width: 100px; height: 100px  " alt=" {{ img.name }} ">
+										</li>	
+									{% endfor %}
 								</ol>
 							</div>
 						
-						<p>{{ chambre.description }}</p>
+						<div class="text-wrap" >{{ chambre.description | safe }}</div>
 
-						<p>When she reached the first hills of the Italic Mountains, she had a
+						<p class="text-justify">When she reached the first hills of the Italic Mountains, she had a
 							last view back on the skyline of her hometown Bookmarksgrove, the
 							headline of Alphabet Village and the subline of her own road, the Line
 							Lane. Pityful a rethoric question ran over her cheek, then she continued
