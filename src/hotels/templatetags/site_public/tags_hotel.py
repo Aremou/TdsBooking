@@ -54,9 +54,10 @@ def get_room_score(id):
 
 
 @register.filter
-def get_chambre_by_hotel(item):
+def get_chambre_by_hotel(item, hotel_id):
     category = Category.objects.get(id=item.id)
-    chambres = Chambre.objects.filter(category_id=category.id)
+    chambres = Chambre.objects.filter(
+        category_id=category.id, hotel_id=hotel_id)
     return chambres
 
 
