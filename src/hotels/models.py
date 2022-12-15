@@ -55,7 +55,6 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-
 class Chambre(models.Model):
 
     name = models.CharField(max_length=100, blank=True, null=True)
@@ -156,9 +155,11 @@ class Equipement_Hotel(models.Model):
 
 class Equipement(models.Model):
     name = models.CharField(max_length=100)
-    number = models.PositiveIntegerField()
-    chambre = models.ForeignKey(Chambre, on_delete=models.CASCADE)
-    add_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+    icon = models.CharField(max_length=100)
+    description = models.TextField(null=True, default=True)
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, default=True, null=True)
+    is_admin = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
         return self.name

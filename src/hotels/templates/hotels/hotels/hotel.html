@@ -70,13 +70,13 @@ ol li {
 						<div id="room-thumbnail--slide" class="carousel slide carousel-fade" data-ride="carousel">
 							<div class="carousel-inner">
 								<div class="carousel-item active" style="height: 400px">
-									<img src="{{ hotel.first_img.url }}" class="d-block w-100 h-100" alt=" {{ hotel.name }} ">
+									<img src="{% if hotel.first_img %} {{ hotel.first_img.url }} {% endif %}" class="d-block w-100 h-100" alt=" {{ hotel.name }} ">
 								</div>
 
 								{% for img in imgs %}
 								
 									<div class="carousel-item" style="height: 400px">
-										<img src=" {{ img.image.url }} "  class="d-block w-100 h-100" alt=" {{ img.name }} ">
+										<img src=" {% if img.image %} {{ img.image.url }} {% endif %} "  class="d-block w-100 h-100" alt=" {{ img.name }} ">
 									</div>
 								{% endfor %}
 
@@ -86,11 +86,11 @@ ol li {
 					
 							<ol class="carousel-indicators mt-1 d-flex" style="justify-content:normal !important">
 								<li data-target="#room-thumbnail--slide" data-slide-to="0" class="active">
-									<img class="img-fluid d-block" style=" width: 100px; height: 100px  " src="{{ hotel.first_img.url }}"   alt="2">
+									<img class="img-fluid d-block" style=" width: 100px; height: 100px  " src="{% if hotel.first_img %} {{ hotel.first_img.url }} {% endif %}"   alt="2">
 								</li>
 								{% for img in imgs %}
 									<li data-target="#room-thumbnail--slide" data-slide-to="{{ img.id }}">
-										<img src="{{ img.image.url }}" class="d-block " style=" width: 100px; height: 100px  " alt=" {{ img.name }} ">
+										<img src="{% if img.image %} {{ img.image.url }} {% endif %}" class="d-block " style=" width: 100px; height: 100px  " alt=" {{ img.name }} ">
 									</li>
 								
 								{% endfor %}
@@ -124,7 +124,7 @@ ol li {
 							<h4>Visite en video</h4>
 						</div>
 						<div class="embed-responsive embed-responsive-16by9 z-depth-1-half">
-							<iframe width="560" height="315" src=" {{ hotel.video.url }} " title="YouTube video player" autoplay="false" frameborder="0" sandbox allowfullscreen></iframe>
+							<iframe width="560" height="315" src=" {% if  hotel.video %} {{  hotel.video.url }} {% endif %} " title="YouTube video player" autoplay="false" frameborder="0" sandbox allowfullscreen></iframe>
 						</div>
 						
 					</div>
