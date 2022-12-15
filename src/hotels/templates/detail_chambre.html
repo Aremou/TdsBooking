@@ -35,6 +35,15 @@ ol li {
 </style> 
 
 {% endblock style %}
+
+
+{% block title %}
+	<title>TDS Booking | {{ hotel.name }} | Chambre : {{ chambre.name }} </title>
+	
+{% endblock  %}
+	
+
+
 {% block content %}
 
 
@@ -56,39 +65,40 @@ ol li {
 					<div class="col-md-12  mb-2 ftco-animate">
 
 						
-							<div id="room-thumbnail--slide" class="carousel slide carousel-fade" data-ride="carousel" >
-								<div class="carousel-inner">
-									<div class="carousel-item active" style="height: 400px">
-										<img src="{{ chambre.first_img.url }}" class="d-block w-100 h-100" alt=" {{ chambre.name }} ">
-									</div>
-
-									{% for img in imgs %}
-										<div class="carousel-item" style="height: 400px">
-											<img src=" {{ img.image.url }} "  class="d-block w-100 h-100" alt=" {{ img.name }} ">
-										</div>
-									{% endfor %}
-									
+						<div id="room-thumbnail--slide" class="carousel slide carousel-fade" data-ride="carousel">
+							<div class="carousel-inner">
+								<div class="carousel-item active" style="height: 400px">
+									<img src="{{ chambre.first_img.url }}" class="d-block w-100 h-100" alt=" {{ chambre.name }} ">
 								</div>
-						
-								<ol class="carousel-indicators mt-1" style="justify-content:normal !important">
-									<li data-target="#room-thumbnail--slide" data-slide-to="0" class="active">
-										<img class="img-fluid d-block" style=" width: 100px; height: 100px  " src="{{ chambre.first_img.url }}"   alt=" {{ chambre.name }} ">
-									</li>
-									{% for img in imgs %}
-										<li data-target="#room-thumbnail--slide" data-slide-to="{{ img.id }}">
-											<img src="{{ img.image.url }}" class="d-block " style=" width: 100px; height: 100px  " alt=" {{ img.name }} ">
-										</li>	
-									{% endfor %}
-								</ol>
+
+								{% for img in imgs %}
+								
+									<div class="carousel-item" style="height: 400px">
+										<img src=" {{ img.image.url }} "  class="d-block w-100 h-100" alt=" {{ img.name }} ">
+									</div>
+								{% endfor %}
+
+
+								
 							</div>
+					
+							<ol class="carousel-indicators mt-1 d-flex" style="justify-content:normal !important">
+								<li data-target="#room-thumbnail--slide" data-slide-to="0" class="active">
+									<img class="img-fluid d-block" style=" width: 100px; height: 100px  " src="{{ chambre.first_img.url }}"   alt="{{ img.name }}">
+								</li>
+								{% for img in imgs %}
+									<li data-target="#room-thumbnail--slide" data-slide-to="{{ img.id }}">
+										<img src="{{ img.image.url }}" class="d-block " style=" width: 100px; height: 100px  " alt=" {{ img.name }} ">
+									</li>
+								
+								{% endfor %}
+
+							</ol>
+						</div> 
 						
 						<div class="text-wrap" >{{ chambre.description | safe }}</div>
 
-						<p class="text-justify">When she reached the first hills of the Italic Mountains, she had a
-							last view back on the skyline of her hometown Bookmarksgrove, the
-							headline of Alphabet Village and the subline of her own road, the Line
-							Lane. Pityful a rethoric question ran over her cheek, then she continued
-							her way.</p>
+						
 					</div>
 					
 					<div class=" col-12 mb-2">
@@ -114,18 +124,25 @@ ol li {
 			<div class="col-lg-3">
 				
 					<div class="col-12 px-0">
-						<div>
-							<h4>Visite en video</h4>
-						</div>
-						<div class="embed-responsive embed-responsive-16by9 z-depth-1-half">
-							<iframe width="560" height="315" src="https://www.youtube.com/embed/98qiqE019As?start=140" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-						</div>
-						<div class="d-flex mt-2">
-							<h5>Nuité : </h5> <span class="ml-1" style="color: red">{{ chambre.overnight | intcomma }} f CFA</span>
+						
+						{% if chambre.video.url %}
+							
+							<div>
+								<h4>Visite en video</h4>
+							</div>
+							<div class="embed-responsive mt-2 mb-3 embed-responsive-16by9 z-depth-1-half">
+								<video controls width="250">
+									<source src="{{ chambre.video.url }}"
+											type="video/webm">
+								</video>
+							</div>
+						{% endif %}
+							
+						<div class="d-flex  border-left border-5 pl-2 border-primary">
+							<h5>Nuité : </h5> <span class="ml-2 font-weight-bold " style="color: red">{{ chambre.overnight | intcomma }} F CFA</span>
 						</div>
 						
-						
-						<a name="" id="" class="btn btn-primary mt-2" href="{% url 'reservation' hotel.slug chambre.number %}" role="button">Reserver</a>
+						<a name="" id="" class="btn btn-primary btn-block active mt-5" href="{% url 'reservation' hotel.slug chambre.number %}" role="button">Reserver</a>
 					</div>
 					
 					

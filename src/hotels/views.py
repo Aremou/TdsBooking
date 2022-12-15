@@ -122,7 +122,6 @@ def hotel_check_avail(request, slug):
 
 def chambre_detail(request, slug, number):
 
-    print('t')
     chambre = get_object_or_404(Chambre, number=number)
     hotel = get_object_or_404(Hotel, slug=slug)
     equipements = Equipement.objects.filter(chambre=chambre.id)
@@ -150,6 +149,8 @@ def reservation_hotel(request, slug, number):
         token = get_random_string(length=32)
 
     chambre = Chambre.objects.get(number=number)
+    imgs = Image_Chambre.objects.filter(chambre=chambre.id)
+
     hotel = Hotel.objects.get(slug=slug)
     a = request.session.get('date01')
     b = request.session.get('date02')
@@ -178,7 +179,7 @@ def reservation_hotel(request, slug, number):
 
         else:
             user = CustomUser.objects.create_user(
-                first_name=first_name, date_joined=datetime.now(), last_name=last_name, email=email, password=password, tel=tel,)
+                first_name=first_name,  last_name=last_name, email=email, password=password, tel=tel,)
 
             template = render_to_string('hotels/email/new_user.html', {
                 'first_name': first_name, 'last_name': last_name, 'password': password, 'email': email})
@@ -196,7 +197,7 @@ def reservation_hotel(request, slug, number):
         print(reserv.token)
         return HttpResponseRedirect(reverse('transition', args=[reserv.token, request.POST.get('check')]))
 
-    return render(request, 'hotels/reservation/index.html', context={"chambre": chambre, "hotel": hotel, "date1": a, "date2": b, "amount": amount, "sejour": sejour, "countries": countries})
+    return render(request, 'hotels/reservation/index.html', context={"chambre": chambre, "hotel": hotel, "date1": a, "date2": b, "amount": amount, "sejour": sejour, "countries": countries, "imgs": imgs})
 
 
 def transition(request, token, type):
