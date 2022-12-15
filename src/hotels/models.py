@@ -130,36 +130,28 @@ class Payement(models.Model):
     transaction_id = models.CharField(max_length=700)
     add_at = models.DateTimeField(auto_now=True, blank=True, null=True)
     is_delete = models.BooleanField(default=False)
-    delete_at = models.DateTimeField(blank=True, null=True)
+    deleted_at = models.DateTimeField(blank=True, null=True)
 
 
-class CategorieEquipementHotel(models.Model):
+class CategoryEquipment(models.Model):
     name = models.CharField(max_length=100)
-    add_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+    token = models.CharField(max_length=500, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+    updated_at = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return self.name
-
-
-class Equipement_Hotel(models.Model):
+    
+class Equipment(models.Model):
     name = models.CharField(max_length=100)
-    number = models.PositiveIntegerField()
-    category = models.ForeignKey(
-        CategorieEquipementHotel, on_delete=models.CASCADE)
-    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
-    add_at = models.DateTimeField(auto_now=True, blank=True, null=True)
-
-    def __str__(self):
-        return self.name
-
-
-class Equipement(models.Model):
-    name = models.CharField(max_length=100)
-    icon = models.CharField(max_length=100)
+    icon = models.CharField(max_length=100, null=True)
     description = models.TextField(null=True, default=True)
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, default=True, null=True)
+    category = models.ForeignKey(CategoryEquipment, on_delete=models.CASCADE)
     is_admin = models.BooleanField(default=False)
+    token = models.CharField(max_length=500, blank=True, null=True)
     created_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+    updated_at = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return self.name

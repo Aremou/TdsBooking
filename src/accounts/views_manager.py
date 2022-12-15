@@ -16,9 +16,9 @@ from django.conf import settings
 from django.shortcuts import render
 from django.contrib import messages
 from django.urls import reverse
-from accounts.forms import AddChambreEp, AddChambreImg, AddHotelEp, AddHotelImg, AddPayement, CheckBooking, EditHotel, ManagerAddBooking, ManagerEditChambre
+from accounts.forms import AddChambreEp, AddChambreImg, AddHotelImg, AddPayement, CheckBooking, EditHotel, ManagerAddBooking, ManagerEditChambre
 from accounts.models import CustomUser, HotelManager
-from hotels.models import Chambre, Equipement, Equipement_Hotel, Hotel, Image_Chambre, Image_Hotel, Payement, Reservation
+from hotels.models import Chambre, Equipment, Hotel, Image_Chambre, Image_Hotel, Payement, Reservation
 from django.contrib.auth.decorators import user_passes_test
 
 

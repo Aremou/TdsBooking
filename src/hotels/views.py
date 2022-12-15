@@ -13,7 +13,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 import requests
 from accounts.models import CustomUser
-from hotels.models import Category, Chambre, Equipement, Equipement_Hotel, Hotel, Image_Chambre, Image_Hotel, Payement, Reservation
+from hotels.models import Category, Chambre, Equipment, Hotel, Image_Chambre, Image_Hotel, Payement, Reservation
 
 from django.contrib import messages
 from django.template.loader import render_to_string
@@ -104,9 +104,7 @@ def hotel_detail(request, slug):
             if check_availability(room, t1, t2):
                 available_rooms.append(room)
 
-    equipements = Equipement_Hotel.objects.filter(hotel=hotel.id)
-
-    return render(request, 'hotels/hotels/hotel.html', context={"hotel": hotel, "chambres": available_rooms, "equipements": equipements, "imgs": imgs, "hotel_categories": hotel_categories})
+    return render(request, 'hotels/hotels/hotel.html', context={"hotel": hotel, "chambres": available_rooms, "imgs": imgs, "hotel_categories": hotel_categories})
 
 
 def hotel_check_avail(request, slug):

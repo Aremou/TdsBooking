@@ -2,7 +2,7 @@ from xml.dom.pulldom import parseString
 from django.contrib import admin
 
 # Register your models here.
-from hotels.models import CategorieEquipementHotel, Category, Chambre, Equipement, Equipement_Hotel, Hotel, Image_Chambre, Image_Hotel, Payement, Reservation
+from hotels.models import CategoryEquipment, Category, Chambre, Equipment, Hotel, Image_Chambre, Image_Hotel, Payement, Reservation
 
 
 class ImageHotel(admin.StackedInline):
@@ -13,8 +13,8 @@ class ImageChambre(admin.StackedInline):
     model = Image_Chambre
 
 
-class EquipChambre(admin.StackedInline):
-    model = Equipement
+# class Equipment(admin.StackedInline):
+#     model = Equipment
 
 
 @admin.register(Hotel)
@@ -51,7 +51,7 @@ class ChambreAdmin(admin.ModelAdmin):
 
     list_editable = ('overnight', 'is_delete',)
 
-    inlines = [ImageChambre, EquipChambre]
+    inlines = [ImageChambre]
 
     class Meta:
         model = Chambre
@@ -86,29 +86,32 @@ class PayementAdmin(admin.ModelAdmin):
     )
 
 
-@admin.register(Equipement)
-class EquipementAdmin(admin.ModelAdmin):
+@admin.register(Equipment)
+class EquipmentAdmin(admin.ModelAdmin):
     list_display = (
         "name",
-        "number",
-        "chambre",
-        "add_at",
-    )
-
-
-@admin.register(CategorieEquipementHotel)
-class CategorieEquipementHotelAdmin(admin.ModelAdmin):
-    list_display = (
-        "name",
-        "add_at",
-    )
-
-
-@admin.register(Equipement_Hotel)
-class EquipementHotelAdmin(admin.ModelAdmin):
-    list_display = (
-        "name",
-        "number",
+        "icon",
+        "description",
         "hotel",
-        "add_at",
+        "category",
+        "is_admin",
+        "token",
+        "created_at",
+        "updated_at",
     )
+    # inlines = [Equipment]
+    # class Meta:
+    #     model = Equipment
+
+
+@admin.register(CategoryEquipment)
+class CategoryEquipmentAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "token",
+        "created_at",
+        "updated_at",
+    )
+    class Meta:
+        model = CategoryEquipment
+

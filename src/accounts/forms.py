@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
 from accounts.models import CustomUser, Profile
-from hotels.models import Chambre, Equipement, Equipement_Hotel, Hotel, Image_Chambre, Image_Hotel, Payement
+from hotels.models import Chambre, Equipment, Hotel, Image_Chambre, Image_Hotel, Payement
 from django.core.validators import FileExtensionValidator
 
 
@@ -85,23 +85,11 @@ class EditHotel(forms.ModelForm):
             'star_nbr',
         ]
 
-
-class AddHotelEp(forms.ModelForm):
-    class Meta:
-        model = Equipement_Hotel
-        fields = [
-            'name',
-            'number',
-            'category',
-        ]
-
-
 class AddChambreEp(forms.ModelForm):
     class Meta:
-        model = Equipement
+        model = Equipment
         fields = [
             'name',
-            'number',
         ]
 
 
@@ -176,5 +164,4 @@ class AddPayement(forms.ModelForm):
         fields = [
             'payment_method',
             'transaction_id',
-
         ]
