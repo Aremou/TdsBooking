@@ -43,13 +43,12 @@ class ChambreAdmin(admin.ModelAdmin):
         "overnight",
         "capacity",
         "category",
-        "is_delete",
 
     )
 
     search_fields = ('number', 'hotel__name', 'category__name')
 
-    list_editable = ('overnight', 'is_delete',)
+    list_editable = ('overnight',)
 
     inlines = [ImageChambre]
 
@@ -73,7 +72,7 @@ class ReservationAdmin(admin.ModelAdmin):
         "check_out",
         "amount",
         "status",
-        "add_at",
+        "created_at",
     )
 
 
@@ -82,7 +81,7 @@ class PayementAdmin(admin.ModelAdmin):
     list_display = (
         "reservation",
         "payment_method",
-        "add_at",
+        "created_at",
     )
 
 
@@ -100,8 +99,8 @@ class EquipmentAdmin(admin.ModelAdmin):
         "updated_at",
     )
     # inlines = [Equipment]
-    # class Meta:
-    #     model = Equipment
+    class Meta:
+        model = Equipment
 
 
 @admin.register(CategoryEquipment)

@@ -1,0 +1,146 @@
+{% extends 'TdsBooking/layouts/base.html'%}
+{% load static %}
+{% load humanize %}
+{% load site_public.tags_hotel %}
+{% block style %}
+
+<style>
+
+
+	/* img:hover{
+		transform: scale(1.2);  
+	}
+
+	img{
+		transition: all .5s;
+	}  */
+
+	ol li {
+		list-style: none;
+		opacity: 0.5;
+		cursor: pointer;
+		box-sizing:content-box;
+		
+		flex:0 1 auto;
+		
+		margin-right:3px;
+		margin-left:3px;
+		
+		
+		border-top:10px solid transparent;
+		border-bottom:10px solid transparent;
+		transition:opacity .6s ease;
+	}
+
+</style> 
+
+{% endblock style %}
+
+{% block title %}
+	<title>TDS Booking | {{ hotel.name }} | Chambre : {{ chambre.name }} </title>
+{% endblock  %}
+	
+{% block content %}
+
+	<section class="ftco-section ftco-degree-bg">
+		<div class="container">
+
+			<div class="row">
+				<div class="col-12 mt-3">
+					<h2>
+						<a href="{% url 'hotel' hotel.slug %}">{{ hotel.name }}</a> 
+						<span style="color: #bbb8b2;">| </span>
+						<span style="color: #FFB913;">Chambre {{ chambre.number }}</span>
+					</h2>
+					<p class="rate my-3">
+						{% for equipment in equipments %}
+							{% if equipment.category.id  == 1 %}
+								<span class="loc mr-3"><i class="{{ equipment.icon }} mr-1"></i>{{ equipment.name }} </span>
+							{% endif %}
+						{% endfor %}
+					</p>
+				</div>			
+			</div>
+			<div class="row">
+				<div class="col-lg-9">
+					<div class="row">
+						<div class="col-md-12  mb-2 ftco-animate">
+
+							
+							<div id="room-thumbnail--slide" class="carousel slide carousel-fade" data-ride="carousel">
+								<div class="carousel-inner">
+									<div class="carousel-item active" style="height: 550px">
+										<img src="{{ chambre.first_img|get_path_image }}" class="d-block img-fluid h-100" alt=" {{ chambre.name }} ">
+									</div>
+
+									{% for img in imgs %}
+									
+										<div class="carousel-item" style="height: 400px">
+											<img src=" {{ img.image|get_path_image }} "  class="d-block w-100 h-100" alt=" {{ img.name }} ">
+										</div>
+									{% endfor %}
+								</div>
+						
+								<ol class="carousel-indicators mt-1 d-flex" style="justify-content:normal !important">
+									<li data-target="#room-thumbnail--slide" data-slide-to="0" class="active">
+										<img class="img-fluid d-block" style=" width: 100px; height: 100px  " src="{{ chambre.first_img|get_path_image }}"   alt="{{ img.name }}">
+									</li>
+									{% for img in imgs %}
+										<li data-target="#room-thumbnail--slide" data-slide-to="{{ img.id }}">
+											<img src="{{ img.image|get_path_image }}" class="d-block " style=" width: 100px; height: 100px  " alt=" {{ img.name }} ">
+										</li>
+									
+									{% endfor %}
+
+								</ol>
+							</div> 
+							
+							<div class="text-wrap" >{{ chambre.description | safe }}</div>
+
+							
+						</div>
+						<div class=" col-md-12 mb-5">
+							{% if equipments %}
+								<h4 class="my-3">Les Equipements de la chambre</h4>
+								<ul class="row">
+									{% for equipment in equipments %}
+									<li style="list-style-type:none" class="col-md-4 mb-2"> 
+										<span><i class="fa-solid fa-check"></i></span>
+										{{ equipment.name | title }}</li>
+									{% endfor %}
+								</ul>
+							{% endif %} 
+								
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3">	
+					<div class="row">		
+						<div class="col-12 px-0">					
+							{% if chambre.video %}
+								
+								<div>
+									<h4>Visite en video</h4>
+								</div>
+								<div class="embed-responsive mt-2 mb-3 embed-responsive-16by9 z-depth-1-half">
+									<video controls width="250">
+										<source src="{{ chambre.video.url }}"
+												type="video/webm">
+									</video>
+								</div>
+							{% endif %}
+								
+							<div class="d-flex  border-left border-5 pl-2 border-primary">
+								<h5>Nuité : </h5> <span class="ml-2 font-weight-bold " style="color: red">{{ chambre.overnight | intcomma }} F CFA</span>
+							</div>
+							
+							<a name="" id="" class="btn btn-primary btn-block active mt-5" href="{% url 'reservation' hotel.slug chambre.number %}" role="button">Reserver</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</section>
+
+{% endblock %}

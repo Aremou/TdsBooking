@@ -1,11 +1,11 @@
 from django.urls import path
-from hotels.views import booking_recap, chambre_detail, hotel_check_avail, hotel_detail, hotels_view, pay_process, reservation_hotel, search_hotel, transition
+from hotels.views import booking_recap, showRoom, hotel_check_avail, hotel_detail, hotels_view, pay_process, reservation_hotel, search_hotel, transition
 
 urlpatterns = [
     path('', hotels_view, name="hotels-index"),
     path('<str:slug>/', hotel_detail, name='hotel'),
     path('<str:slug>/chambre-<int:number>/',
-         chambre_detail, name='chambre'),
+         showRoom, name='chambre'),
     path('<str:slug>/chambre-<int:number>/reservation/',
          reservation_hotel, name='reservation'),
     path('reservation', search_hotel, name='name_search_hotel'),

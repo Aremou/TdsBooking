@@ -55,11 +55,12 @@ ol li {
 				<p class="rate mb-1">
 					<span class="loc"><i class="fa-solid fa-location-dot mr-1"></i>{{ hotel.adress }}</span>
 				</p>
-				<p class="rate mb-3">
-					<span class="loc"><i class="fa-solid fa-wifi mr-1"></i>Wi-fi graduit</span>
-					<span class="loc mx-2"><i class="fa-solid fa-square-parking mr-1"></i>Parking disponible</span>
-					<span class="loc "><i class="fa-solid fa-person-swimming mr-1"></i>Piscine</span>
-					<span class="loc mx-2"><i class="fa-solid fa-ban-smoking mr-1"></i>Non-fumeurs</span>
+				<p class="rate my-3">
+					{% for equipment in equipments %}
+						{% if equipment.category.id  == 1 %}
+							<span class="loc mr-3"><i class="{{ equipment.icon }} mr-1"></i>{{ equipment.name }} </span>
+						{% endif %}
+					{% endfor %}
 				</p>
 			</div>
 			<div class="col-lg-9">
@@ -69,44 +70,41 @@ ol li {
 
 						<div id="room-thumbnail--slide" class="carousel slide carousel-fade" data-ride="carousel">
 							<div class="carousel-inner">
-								<div class="carousel-item active" style="height: 400px">
-									<img src="{% if hotel.first_img %} {{ hotel.first_img.url }} {% endif %}" class="d-block w-100 h-100" alt=" {{ hotel.name }} ">
+								<div class="carousel-item active" style="height: 550px">
+									<img src="{{ hotel.first_img|get_path_image }}" class="d-block img-fluid h-100" alt=" {{ hotel.name }} ">
 								</div>
 
 								{% for img in imgs %}
 								
 									<div class="carousel-item" style="height: 400px">
-										<img src=" {% if img.image %} {{ img.image.url }} {% endif %} "  class="d-block w-100 h-100" alt=" {{ img.name }} ">
+										<img src="{{ img.image|get_path_image }}"  class="d-block w-100 h-100" alt=" {{ img.name }} ">
 									</div>
 								{% endfor %}
-
-
-								
 							</div>
 					
 							<ol class="carousel-indicators mt-1 d-flex" style="justify-content:normal !important">
 								<li data-target="#room-thumbnail--slide" data-slide-to="0" class="active">
-									<img class="img-fluid d-block" style=" width: 100px; height: 100px  " src="{% if hotel.first_img %} {{ hotel.first_img.url }} {% endif %}"   alt="2">
+									<img class="img-fluid d-block" style=" width: 100px; height: 100px  " src="{{ hotel.first_img|get_path_image }}"   alt="2">
 								</li>
 								{% for img in imgs %}
 									<li data-target="#room-thumbnail--slide" data-slide-to="{{ img.id }}">
-										<img src="{% if img.image %} {{ img.image.url }} {% endif %}" class="d-block " style=" width: 100px; height: 100px  " alt=" {{ img.name }} ">
+										<img src="{{ img.image|get_path_image }}" class="d-block " style=" width: 100px; height: 100px  " alt=" {{ img.name }} ">
 									</li>
-								
 								{% endfor %}
 
 							</ol>
 						</div> 
-
-						
 						
 						<p>{{ hotel.description | safe }}</p>
 
-						<p class="text-justify">When she reached the first hills of the Italic Mountains, she had a
-							last view back on the skyline of her hometown Bookmarksgrove, the
-							headline of Alphabet Village and the subline of her own road, the Line
-							Lane. Pityful a rethoric question ran over her cheek, then she continued
-							her way.</p>
+						<h4>
+							Ses points forts
+						</h4>
+						<p class="rate my-3">
+							{% for equipment in equipments %}
+								<span class="loc mr-3"><i class="{{ equipment.icon }} mr-1"></i>{{ equipment.name }} </span>
+							{% endfor %}
+						</p>
 					</div>
 					
 
@@ -116,12 +114,11 @@ ol li {
 				<div class="row">
 					<div class="col-12">
 						<div class="" style="width: 100%;">
-							
 						   <iframe async src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2240.352579368094!2d2.453393174905351!3d6.365894863178339!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1023552ee67f442f%3A0xcb91562a1104a7b6!2sTechnoData%20Solutions!5e1!3m2!1sfr!2sbj!4v1653307083597!5m2!1sfr!2sbj" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 						 </div>
 					</div>
 					
-					{% if hotel.video.url %}
+					{% if hotel.video %}
 						
 						<div class="col-12 mt-2">
 							<div class="mb-2" >
@@ -148,7 +145,7 @@ ol li {
         
 	
 		   <form method="GET"  action="{% url 'check-hotel-avail' hotel.slug %}">
-			 <div class=" row bg-light p-4 d-flex justify-content-center">
+			 	<div class=" row bg-light p-4 d-flex justify-content-center">
 					<div class="col-md-3 d-flex justify-content-center">
 						<div class="border border-black d-flex align-items-center p-2">
 							<div class="d-flex bg-white">
@@ -175,8 +172,6 @@ ol li {
 					<div class="col-md-3 d-flex justify-content-center">
 						<button class="btn btn-primary" type="submit">Vérifier la disponibilité</button>
 					</div>
-			  	
-					
 				</div>
 			</form>
 
@@ -207,18 +202,17 @@ ol li {
 					<div class="tab-content" id="myTabContent">
 						<div class="tab-pane fade show active" id="{{ hotel_categories.0 }}" role="tabpanel" aria-labelledby="{{ hotel_categories.0 }}-tab">
 							{% for chambre in hotel_categories.0|get_chambre_by_hotel:hotel.id %}
-								<div class="row col-12 m-0">
-									<div class="row p-3 mt-4" style="box-shadow: 0 4px 21px -12px rgba(0, 0, 0,
-									0.66);border:none;">
-										<div class="col-md-3 p-0">
-											<img class="img-thumbnail img-responsive h-auto" src=" {{ chambre.first_img.url }} " style="border-top-left-radius: 5px;border-top-right-radius:
+								<div class="card mt-4 p-3" style="box-shadow: 0 4px 21px -12px rgba(0, 0, 0,0.66);">
+									<div class="row g-0">
+										<div class="col-md-3">
+											<img class="img-fluid rounded-start h-100" src="{{  chambre.first_img|get_path_image  }}" style="border-top-left-radius: 5px;border-top-right-radius:
 												5px;border-bottom-right-radius: 5px;">
 										</div>
 										<div class="col-md-6 py-0">
 											<h3 class="card-title"><a href="{% url 'chambre' hotel.slug chambre.number %}"> Chambre {{ chambre.number }}</a></h3>
 											<p class="card-text">{{ chambre.category }}</p>			
 										</div>
-										<div class="col-md-3 py-0 pr-0">
+										<div class="col-md-3 py-0">
 											<div class="row w-100 m-0 mb-md-4">
 												{% if chambre.id|get_room_score  %}
 													<div class="col-md-10">
@@ -234,7 +228,7 @@ ol li {
 											<div class="row col-12 float-right w-auto mb-md-3">
 												<span class="">XOF {{ chambre.overnight | intcomma}}</span>
 											</div>
-											<div class="row col-12 m-0 p-0 fixed-bottom" style="position:absolute !important">
+											<div class="row col-12 m-0 fixed-bottom" style="position:absolute !important">
 												<a class="btn btn-primary ml-md-auto" href="{% url 'chambre' hotel.slug chambre.number %}" role="button">Réserver</a>
 											</div>
 										</div>
@@ -247,18 +241,16 @@ ol li {
 							{% if hotel_category.id != hotel_categories.0.id %}
 								<div class="tab-pane fade" id="{{ hotel_category }}" role="tabpanel" aria-labelledby="{{ hotel_category }}-tab">
 									{% for chambre in hotel_category|get_chambre_by_hotel:hotel.id %}
-										<div class="row col-12 m-0">
-											<div class="row p-3 mt-4 " style="box-shadow: 0 4px 21px -12px rgba(0, 0, 0,
-											0.66);border:none;">
-												<div class="col-md-3 p-0">
-													<img class="h-auto img-thumbnail img-responsive" src="{{ chambre.first_img.url }}" style="border-top-left-radius: 5px;border-top-right-radius:
-														5px;border-bottom-right-radius: 5px;">
+										<div class="card mt-4 p-3" style="box-shadow: 0 4px 21px -12px rgba(0, 0, 0,0.66);">
+											<div class="row g-0" >
+												<div class="col-md-3">
+													<img class="img-fluid rounded-start h-100" src="{{ chambre.first_img|get_path_image }}">
 												</div>
 												<div class="col-md-6 py-0">
 													<h3 class="card-title"><a href="{% url 'chambre' hotel.slug chambre.number %}"> Chambre {{ chambre.number }}</a></h3>
 													<p class="card-text">{{ chambre.category }}</p>			
 												</div>
-												<div class="col-md-3 py-0 pr-0">
+												<div class="col-md-3 py-0">
 													<div class="row w-100 m-0 mb-md-4">
 														{% if chambre.id|get_room_score  %}
 															<div class="col-md-10">
@@ -274,13 +266,13 @@ ol li {
 													<div class="row col-12 float-right w-auto mb-md-3">
 														<span class="">XOF {{ chambre.overnight | intcomma }}</span>
 													</div>
-													<div class="row col-12 m-0 p-0 fixed-bottom" style="position:absolute !important">
+													<div class="row col-12 m-0 fixed-bottom" style="position:absolute !important">
 														<a class="btn btn-primary ml-md-auto" href="{% url 'chambre' hotel.slug chambre.number %}" role="button">Réserver</a>
 													</div>
 												</div>
 											</div>
 										</div>
-									{% endfor %}
+											{% endfor %}
 								</div>
 							{% endif %}
 						{% endfor %}
@@ -288,14 +280,14 @@ ol li {
 				</div>
 			</div>
 
-        {% else %}
-			<div class="row">
-				<div class="col-md-12 mt-2 alert alert-danger text-center" role="alert">
-					Veillez choisir une date d'arrivée et une date de départ pour voir les chambres disponibles
-				</div>
+			{% else %}
+				<div class="row">
+					<div class="col-md-12 mt-2 alert alert-danger text-center" role="alert">
+						Veillez choisir une date d'arrivée et une date de départ pour voir les chambres disponibles
+					</div>
 
-			</div>
-        {% endif %}
+				</div>
+			{% endif %}
 			
 	</div>
 </section>

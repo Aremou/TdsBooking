@@ -91,6 +91,7 @@ def hotels_view(request):
 def hotel_detail(request, slug):
 
     hotel = get_object_or_404(Hotel, slug=slug)
+    equipments = hotel.equipments.all()
     t1 = request.session.get('date01')
     t2 = request.session.get('date02')
 
@@ -104,7 +105,7 @@ def hotel_detail(request, slug):
             if check_availability(room, t1, t2):
                 available_rooms.append(room)
 
-    return render(request, 'hotels/hotels/hotel.html', context={"hotel": hotel, "chambres": available_rooms, "imgs": imgs, "hotel_categories": hotel_categories})
+    return render(request, 'hotels/hotels/hotel.html', context={"hotel": hotel, "chambres": available_rooms, "imgs": imgs, "hotel_categories": hotel_categories, "equipments": equipments})
 
 
 def hotel_check_avail(request, slug):
@@ -118,14 +119,16 @@ def hotel_check_avail(request, slug):
     return HttpResponseRedirect(reverse('hotel', args=[hotel.slug]))
 
 
-def chambre_detail(request, slug, number):
+def showRoom(request, slug, number):
 
     chambre = get_object_or_404(Chambre, number=number)
     hotel = get_object_or_404(Hotel, slug=slug)
-    equipements = Equipement.objects.filter(chambre=chambre.id)
+    equipments = chambre.equipments.all()
+
+    # equipments = Equipment.objects.filter(chambre=chambre.id)
     imgs = Image_Chambre.objects.filter(chambre=chambre.id)
 
-    return render(request, 'detail_chambre.html', context={"chambre": chambre, "hotel": hotel, "equipements": equipements, "imgs": imgs})
+    return render(request, 'show_room.html', context={"chambre": chambre, "hotel": hotel, "imgs": imgs, "equipments": equipments})
 
 
 def scret_key_generator(size=6, chars=string.ascii_uppercase + string.digits):

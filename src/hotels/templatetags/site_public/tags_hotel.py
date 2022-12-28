@@ -79,3 +79,10 @@ def get_room_experiences(id):
     expreriences = RoomRatings.objects.filter(room=room.id)
 
     return expreriences.count()
+
+@register.filter
+def get_path_image(image):
+    if image:
+        return image.url
+    
+    return '/media/images/img-default.jpg'

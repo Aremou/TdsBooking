@@ -9,6 +9,31 @@ from django.core.validators import FileExtensionValidator
 # Create your models here.
 
 
+class CategoryEquipment(models.Model):
+    name = models.CharField(max_length=100)
+    token = models.CharField(max_length=500, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+    updated_at = models.DateTimeField(blank=True, null=True)
+    deleted_at = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+    
+class Equipment(models.Model):
+    name = models.CharField(max_length=100)
+    icon = models.CharField(max_length=100, null=True)
+    description = models.TextField(null=True, default=True)
+    hotel_id = models.IntegerField(default=True, null=True)
+    category = models.ForeignKey(CategoryEquipment, on_delete=models.CASCADE)
+    is_admin = models.BooleanField(default=False)
+    token = models.CharField(max_length=500, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+    updated_at = models.DateTimeField(blank=True, null=True)
+    deleted_at = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
 class Hotel(models.Model):
     name = models.CharField(max_length=100)
     first_img = models.ImageField(upload_to="images/hotel/", validators=[
@@ -22,10 +47,12 @@ class Hotel(models.Model):
     star_nbr = models.PositiveIntegerField()
     ville = models.CharField(max_length=100, blank=True, null=True)
     token = models.CharField(max_length=100, blank=True, null=True)
+    equipments = models.ManyToManyField(Equipment)
+    video = models.FileField(upload_to='videos/hotel', null=True, blank=True, validators=[FileExtensionValidator(allowed_extensions=['MOV', 'avi', 'mp4', 'webm', 'mkv'])])
     created_at = models.DateTimeField(auto_now=True, blank=True, null=True)
-    video = models.FileField(upload_to='videos/hotel', null=True, blank=True,
-                             validators=[FileExtensionValidator(allowed_extensions=['MOV', 'avi', 'mp4', 'webm', 'mkv'])])
-
+    updated_at = models.DateTimeField(blank=True, null=True)
+    deleted_at = models.DateTimeField(blank=True, null=True)
+    
     def __str__(self):
         return self.name
 
@@ -44,14 +71,17 @@ class Service(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
-    date_added = models.DateTimeField(auto_now=True, blank=True, null=True)
-
-
+    created_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+    updated_at = models.DateTimeField(blank=True, null=True)
+    deleted_at = models.DateTimeField(blank=True, null=True)
+    
 class Category(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now=True, blank=True, null=True)
-
+    updated_at = models.DateTimeField(blank=True, null=True)
+    deleted_at = models.DateTimeField(blank=True, null=True)
+    
     def __str__(self):
         return self.name
 
@@ -74,10 +104,10 @@ class Chambre(models.Model):
         Hotel, related_name='hotel', on_delete=models.CASCADE)
     beds = models.PositiveIntegerField()
     capacity = models.PositiveIntegerField(blank=True, null=True)
+    equipments = models.ManyToManyField(Equipment)
     created_at = models.DateTimeField(auto_now=True, blank=True, null=True)
-    is_delete = models.BooleanField(default=False)
-    delete_at = models.DateTimeField(blank=True, null=True)
-    update_at = models.DateTimeField(blank=True, null=True)
+    updated_at = models.DateTimeField(blank=True, null=True)
+    deleted_at = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -109,9 +139,9 @@ class Reservation(models.Model):
         ('T', 'Termineé'),
     ]
     status = models.CharField(choices=STATUS, max_length=200, default='EAP')
-    add_at = models.DateTimeField(auto_now=True, blank=True, null=True)
-    is_delete = models.BooleanField(default=False)
-    delete_at = models.DateTimeField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+    updated_at = models.DateTimeField(blank=True, null=True)
+    deleted_at = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return self.chambre.name
@@ -128,34 +158,9 @@ class Payement(models.Model):
     payment_method = models.CharField(
         choices=MODE, max_length=200, default='card')
     transaction_id = models.CharField(max_length=700)
-    add_at = models.DateTimeField(auto_now=True, blank=True, null=True)
-    is_delete = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+    updated_at = models.DateTimeField(blank=True, null=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
-
-
-class CategoryEquipment(models.Model):
-    name = models.CharField(max_length=100)
-    token = models.CharField(max_length=500, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now=True, blank=True, null=True)
-    updated_at = models.DateTimeField(blank=True, null=True)
-
-    def __str__(self):
-        return self.name
-    
-class Equipment(models.Model):
-    name = models.CharField(max_length=100)
-    icon = models.CharField(max_length=100, null=True)
-    description = models.TextField(null=True, default=True)
-    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, default=True, null=True)
-    category = models.ForeignKey(CategoryEquipment, on_delete=models.CASCADE)
-    is_admin = models.BooleanField(default=False)
-    token = models.CharField(max_length=500, blank=True, null=True)
-    created_at = models.DateTimeField(auto_now=True, blank=True, null=True)
-    updated_at = models.DateTimeField(blank=True, null=True)
-
-    def __str__(self):
-        return self.name
-
 
 class Image_Hotel(models.Model):
     name = models.CharField(max_length=255, blank=True, null=True)
@@ -164,6 +169,8 @@ class Image_Hotel(models.Model):
                               FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'webp'])])
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+    updated_at = models.DateTimeField(blank=True, null=True)
+    deleted_at = models.DateTimeField(blank=True, null=True)
 
 
 class Image_Chambre(models.Model):
@@ -173,3 +180,5 @@ class Image_Chambre(models.Model):
                               FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'webp'])])
     chambre = models.ForeignKey(Chambre, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now=True, blank=True, null=True)
+    updated_at = models.DateTimeField(blank=True, null=True)
+    deleted_at = models.DateTimeField(blank=True, null=True)
